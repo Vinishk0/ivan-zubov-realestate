@@ -1,4 +1,4 @@
-// Administrative okrugs from OSM; sources: docs/ASSETS.md. Photos and descriptions are for the prototype.
+// Administrative okrugs from OSM; photo sources and licences: docs/ASSETS.md.
 export const okrugs = [
   {
     "id": "cao",
@@ -17,13 +17,13 @@ export const okrugs = [
       "Пешие маршруты",
       "Ваш ритм"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
-    "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoCaption": "Кремль и Москва-река · Центральный округ",
+    "image": "assets/districts/okrug-cao.jpg",
+    "photoAuthor": "Anton Zelenov",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:View_to_Moscow_river_from_Bolshoy_Moskvoretsky_Bridge.jpg",
+    "photoLicense": "CC BY 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "photoPosition": "50% 50%"
   },
   {
     "id": "sao",
@@ -42,13 +42,13 @@ export const okrugs = [
       "Повседневный комфорт",
       "Личный подбор"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
-    "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoCaption": "Северный речной вокзал · Северный округ",
+    "image": "assets/districts/okrug-sao.jpg",
+    "photoAuthor": "Sergey A. Demidov",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:20210518_Moscow_North_River_Terminal_01.jpg",
+    "photoLicense": "CC BY 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "photoPosition": "50% 50%"
   },
   {
     "id": "svao",
@@ -67,13 +67,13 @@ export const okrugs = [
       "Жизнь рядом",
       "Ваши приоритеты"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
+    "photoCaption": "Главный павильон ВДНХ · Северо-Восточный округ",
+    "image": "assets/districts/okrug-svao.jpg",
     "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._Central_pavilion_VDNKh_P5293171_2350.jpg",
     "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "photoPosition": "50% 50%"
   },
   {
     "id": "vao",
@@ -92,13 +92,13 @@ export const okrugs = [
       "Прогулки",
       "Комфорт каждый день"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
+    "photoCaption": "Измайловский кремль · Восточный округ",
+    "image": "assets/districts/okrug-vao.jpg",
     "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._Izmailovo_Kremlin_P5140088_2740.jpg",
     "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "photoPosition": "50% 50%"
   },
   {
     "id": "yuvao",
@@ -117,13 +117,13 @@ export const okrugs = [
       "Нужная планировка",
       "Ваши маршруты"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
-    "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoCaption": "Парк Кузьминки · Юго-Восточный округ",
+    "image": "assets/districts/okrug-yuvao.jpg",
+    "photoAuthor": "Vyacheslav Argenberg",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow,_Kuzminki_Park,_Pond,_Russia.jpg",
+    "photoLicense": "CC BY 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "photoPosition": "50% 50%"
   },
   {
     "id": "yuao",
@@ -142,13 +142,13 @@ export const okrugs = [
       "Ваши планы",
       "Личный подбор"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
-    "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoCaption": "Дворец в Коломенском · Южный округ",
+    "image": "assets/districts/okrug-yuao.jpg",
+    "photoAuthor": "Vyacheslav Argenberg",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Wooden_Palace_in_Kolomenskoye,_Moscow,_Russia.jpg",
+    "photoLicense": "CC BY 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "photoPosition": "50% 50%"
   },
   {
     "id": "yuzao",
@@ -167,13 +167,13 @@ export const okrugs = [
       "Планы на будущее",
       "Личное пространство"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
-    "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoCaption": "Главное здание МГУ · Юго-Западный округ",
+    "image": "assets/districts/okrug-yuzao.jpg",
+    "photoAuthor": "Dmitry A. Mottl (cropped by King of Hearts )",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow_State_University_crop.jpg",
+    "photoLicense": "CC BY-SA 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "photoPosition": "50% 50%"
   },
   {
     "id": "zao",
@@ -192,13 +192,13 @@ export const okrugs = [
       "Пространство дома",
       "Удобное окружение"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
-    "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoCaption": "Парк Победы · Западный округ",
+    "image": "assets/districts/okrug-zao.jpg",
+    "photoAuthor": "mos.ru",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Victory_park_on_Poklonnaya_Hill1.jpg",
+    "photoLicense": "CC BY 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "photoPosition": "50% 50%"
   },
   {
     "id": "szao",
@@ -217,13 +217,13 @@ export const okrugs = [
       "Прогулки",
       "Ваши пожелания"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
-    "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoCaption": "Живописный мост · Северо-Западный округ",
+    "image": "assets/districts/okrug-szao.jpg",
+    "photoAuthor": "Paul Grach",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Zhivopisny_Bridge_(37530309561).jpg",
+    "photoLicense": "CC BY 2.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "photoPosition": "50% 50%"
   },
   {
     "id": "zelao",
@@ -242,13 +242,13 @@ export const okrugs = [
       "Для семьи",
       "Комфорт каждый день"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
-    "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
+    "photoCaption": "Большой городской пруд · Зеленоградский округ",
+    "image": "assets/districts/okrug-zelao.jpg",
+    "photoAuthor": "Vsatinet",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9_%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D1%81%D0%BA%D0%BE%D0%B9_%D0%BF%D1%80%D1%83%D0%B4.jpg",
     "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "photoPosition": "50% 50%"
   },
   {
     "id": "nao",
@@ -267,13 +267,13 @@ export const okrugs = [
       "Понятный бюджет",
       "Ваши маршруты"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
-    "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoCaption": "Липовый парк в Коммунарке · Новомосковский округ",
+    "image": "assets/districts/okrug-nao.jpg",
+    "photoAuthor": "moskva.pictures",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow-2011_-_53_%D1%83%D0%BB%D0%B8%D1%86%D0%B0_%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D1%8B_%D0%9C%D0%BE%D0%BD%D0%B0%D1%85%D0%BE%D0%B2%D0%BE%D0%B9.jpg",
+    "photoLicense": "CC BY 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "photoPosition": "50% 50%"
   },
   {
     "id": "tao",
@@ -292,12 +292,12 @@ export const okrugs = [
       "Связь с городом",
       "Свой ритм"
     ],
-    "photoCaption": "Москва-Сити · общая фотография для макета",
-    "image": "assets/districts/presnya.jpg",
-    "photoAuthor": "Alexxx1979",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg",
-    "photoLicense": "CC BY-SA 4.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "photoPosition": "50% 45%"
+    "photoCaption": "Река Десна в Троицке · Троицкий округ",
+    "image": "assets/districts/okrug-tao.jpg",
+    "photoAuthor": "Just",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Desna_River_in_Troitsk_of_Moscow_Region_01.JPG",
+    "photoLicense": "Public domain",
+    "photoLicenseUrl": "https://commons.wikimedia.org/wiki/File:Desna_River_in_Troitsk_of_Moscow_Region_01.JPG",
+    "photoPosition": "50% 50%"
   }
 ];
