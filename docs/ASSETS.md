@@ -36,16 +36,23 @@ Leaflet 1.9.4 сохранён локально в `assets/vendor/`; лицен�
 - [Замоскворечье — 1255942](https://www.openstreetmap.org/relation/1255942).
 - [Сокол — 445280](https://www.openstreetmap.org/relation/445280).
 
-## Фотографии районов
+## Фотографии округов
 
-Файлы в `assets/districts/` — пять реальных фотографий Москвы. В текущей версии все округа используют общую панораму Москва-Сити по пожеланию пользователя. Автор, источник и лицензия показаны рядом с фотографией. Подпись прямо указывает, что фотография общая для макета; она не иллюстрирует конкретный выбранный округ. Остальные четыре снимка сохранены для дальнейшего согласования. На странице используются CSS-кадрирование и выбор положения кадра; сами файлы не ретушировались.
+Каждому из 12 округов назначена отдельная реальная фотография узнаваемого места. Файлы сохранены локально в `assets/districts/`; автор, источник и лицензия показаны в карточке на сайте. Используется только CSS-кадрирование, сами фотографии не ретушировались. Скрипт `tools/download-okrug-photos.mjs` документирует точные имена файлов Wikimedia Commons, проверяет JPEG, разрешение и свободную лицензию, загружает превью шириной 1600 px и обновляет атрибуцию в `okrugs.mjs`.
 
-| Файл | Место и источник | Автор | Лицензия |
+| Округ | Место и источник | Автор | Лицензия |
 | --- | --- | --- | --- |
-| `khamovniki.jpg` | [Новодевичий монастырь](https://commons.wikimedia.org/wiki/File:Novodevichy_Convent_Night.jpg) | Anton Zelenov | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
-| `presnya.jpg` | [Панорама Москва-Сити с Воробьёвых гор](https://commons.wikimedia.org/wiki/File:Moscow._View_of_Moscow-City_from_Sparrow_Hills_P4131826_2600.jpg) | Alexxx1979 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
-| `ramenki.jpg` | [Главное здание МГУ](https://commons.wikimedia.org/wiki/File:Moscow_State_University_crop.jpg) | Dmitry A. Mottl; кадрирование King of Hearts | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
-| `zamoskvorechye.jpg` | [Климентовский храм](https://commons.wikimedia.org/wiki/File:Saint_Clement_Church_2016-04-19_2637.jpg) | Mike1979 Russia | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
-| `sokol.jpg` | [Улица Поленова, 18](https://commons.wikimedia.org/wiki/File:Polenova_str._18.JPG) | Andreykor | Public domain |
+| ЦАО | [Кремль и Москва-река](https://commons.wikimedia.org/wiki/File:View_to_Moscow_river_from_Bolshoy_Moskvoretsky_Bridge.jpg) | Anton Zelenov | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) |
+| САО | [Северный речной вокзал](https://commons.wikimedia.org/wiki/File:20210518_Moscow_North_River_Terminal_01.jpg) | Sergey A. Demidov | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) |
+| СВАО | [Главный павильон ВДНХ](https://commons.wikimedia.org/wiki/File:Moscow._Central_pavilion_VDNKh_P5293171_2350.jpg) | Alexxx1979 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
+| ВАО | [Измайловский кремль](https://commons.wikimedia.org/wiki/File:Moscow._Izmailovo_Kremlin_P5140088_2740.jpg) | Alexxx1979 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
+| ЮВАО | [Парк Кузьминки](https://commons.wikimedia.org/wiki/File:Moscow,_Kuzminki_Park,_Pond,_Russia.jpg) | Vyacheslav Argenberg | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) |
+| ЮАО | [Дворец в Коломенском](https://commons.wikimedia.org/wiki/File:Wooden_Palace_in_Kolomenskoye,_Moscow,_Russia.jpg) | Vyacheslav Argenberg | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) |
+| ЮЗАО | [Главное здание МГУ](https://commons.wikimedia.org/wiki/File:Moscow_State_University_crop.jpg) | Dmitry A. Mottl; кадрирование King of Hearts | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
+| ЗАО | [Парк Победы](https://commons.wikimedia.org/wiki/File:Victory_park_on_Poklonnaya_Hill1.jpg) | mos.ru | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) |
+| СЗАО | [Живописный мост](https://commons.wikimedia.org/wiki/File:Zhivopisny_Bridge_(37530309561).jpg) | Paul Grach | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) |
+| ЗелАО | [Большой городской пруд](https://commons.wikimedia.org/wiki/File:%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9_%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%D1%81%D0%BA%D0%BE%D0%B9_%D0%BF%D1%80%D1%83%D0%B4.jpg) | Vsatinet | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
+| НАО | [Липовый парк в Коммунарке](https://commons.wikimedia.org/wiki/File:Moscow-2011_-_53_%D1%83%D0%BB%D0%B8%D1%86%D0%B0_%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D1%8B_%D0%9C%D0%BE%D0%BD%D0%B0%D1%85%D0%BE%D0%B2%D0%BE%D0%B9.jpg) | moskva.pictures | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) |
+| ТАО | [Река Десна в Троицке](https://commons.wikimedia.org/wiki/File:Desna_River_in_Troitsk_of_Moscow_Region_01.JPG) | Just | Public domain |
 
-Лицензии материалов приведены отдельно от исходного кода сайта. Кэш подготовки данных хранится в игнорируемой папке `artifacts/`; рабочий сайт использует готовые локальные файлы и не обращается к OSM API редактирования.
+Старые фотографии пяти районов сохранены в каталоге для возможного возврата к версии с выбором районов. Лицензии материалов приведены отдельно от исходного кода сайта. Кэш подготовки данных хранится в игнорируемой папке `artifacts/`; рабочий сайт использует готовые локальные файлы и не обращается к OSM API редактирования.

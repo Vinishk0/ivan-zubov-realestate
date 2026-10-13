@@ -45,6 +45,7 @@ test('okrug markers lie within their real administrative boundaries',()=>{
 });
 
 test('okrug photographs are local JPEGs with source and licence credits',async()=>{
+  assert.equal(new Set(content.okrugs.map(d=>d.image)).size,12);
   for(const district of content.okrugs){
     const file=new URL(`../${district.image}`,import.meta.url);
     assert.ok((await stat(file)).size>20000,district.name);
@@ -52,6 +53,7 @@ test('okrug photographs are local JPEGs with source and licence credits',async()
     assert.equal(bytes[0],0xff);assert.equal(bytes[1],0xd8);
     assert.equal(new URL(district.photoSource).hostname,'commons.wikimedia.org');
     assert.ok(district.photoAuthor&&district.photoLicense&&district.photoCaption);
+    assert.match(district.photoCaption,new RegExp(district.name));
     if(district.photoCamera){const[lat,lon]=district.photoCamera;assert.ok(insideGeometry([lon,lat],collection.features.find(f=>f.properties.id===district.id).geometry),district.name+' photo camera');}
   }
 });
