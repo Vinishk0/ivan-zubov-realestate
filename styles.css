@@ -29,3 +29,119 @@
 @media(max-width:360px){:root{--gutter:20px}.header{padding-inline:20px}.hero-top>span:last-child{display:none}.hero-content{left:20px;right:20px}.hero h1{font-size:25vw}.hero-description{gap:8px}.hero-description p{font-size:12px}.hero-description .button{max-width:144px;font-size:9px;padding:13px 12px}.section-heading h2,.about-copy h2{font-size:48px}.contact-layout h2{font-size:71px}.service-bottom strong{font-size:21px}.review-demo{display:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}.case-card:hover .case-image img,.button:hover,.lifestyle-cta:hover{transform:none}}
 @media(min-width:901px){.desktop-nav{font-size:12px}.about-copy>p:not(.lead){font-size:13px}.section-heading-aside p{font-size:14px}.service-card p{font-size:13px;min-height:78px}.service-card ul{font-size:11px}.service-row-title small{font-size:11px}.review-intro>p{font-size:12px}.case-place{font-size:10px}.contact-right>p{font-size:14px}}
+
+/* Readable body type; only decorative captions remain compact. */
+body{font-size:16px}
+.desktop-nav{font-size:14px;gap:24px}
+.brand small{font-size:9px;letter-spacing:.06em}
+.header-contact,.theme-trigger{font-size:13px}
+.theme-panel-title,.theme-options button>span{font-size:14px}
+.theme-options small,.theme-options b,.theme-panel>p{font-size:12px}
+.section-label,.section-label>span:last-child,.eyebrow,.about-copy>.eyebrow{font-size:11px;line-height:1.6}
+.demo-tag,.metrics-heading .demo-tag{font-size:12px}
+.hero-top{font-size:11px}.hero-top .coordinates{font-size:10px}
+.hero-bottom,.scroll-link{font-size:13px}.hero-bottom-label{font-size:11px;letter-spacing:.08em}
+.intro-strip>span:first-child{font-size:11px}
+.about-copy .lead{font-size:18px}
+.about-copy>p:not(.lead),.section-heading-aside p,.lifestyle-top>p,.lifestyle-result p,.review-intro>p,.contact-right>p{font-size:16px;line-height:1.8}
+.text-link,.services-footnote .text-link,.button,.hero-description .button,.contact-right .button{font-size:14px}
+.metrics-heading{font-size:11px}.metric>span:last-child{font-size:14px;max-width:none}
+.case-place,.case-category,.case-facts,.filters button,.case-open{font-size:13px}
+.filters button{min-height:44px;padding:10px 18px}.filters button span{font-size:11px}
+.toolbar-note{font-size:12px}
+.service-top,.service-top>span:nth-child(2){font-size:11px}
+.service-card p{font-size:16px;line-height:1.75;min-height:105px}
+.service-card ul{font-size:14px;line-height:1.6;gap:12px}
+.service-bottom small{font-size:12px;line-height:1.5;max-width:230px}
+.service-row-title small{font-size:14px;line-height:1.7;max-width:550px}
+.services-footnote p{font-size:13px}
+.lifestyle-tabs button{font-size:11px;gap:12px}.lifestyle-tabs button span{font-size:15px}
+.lifestyle-cta{font-size:14px}.lifestyle-footer{font-size:12px}
+.review-controls>span{font-size:13px}
+.review-author strong{font-size:15px}.review-author>div>span{font-size:13px}.review-demo{font-size:10px}
+.contact-layout .eyebrow{font-size:11px}.contacts .section-label>span:last-child{font-size:11px}
+.contact-social,.contact-social button span{font-size:13px}
+.footer-name>span{font-size:10px;letter-spacing:.03em}.footer>p{font-size:12px;color:#f8f5eec2}
+.detail-dialog p,.dialog-list{font-size:16px}.dialog-top>span,.detail-dialog .dialog-note{font-size:12px}.dialog-facts{font-size:14px}
+
+/* Moscow: a vector atlas with a moving address cursor. */
+.moscow{padding-top:45px}
+.moscow .section-heading h2{font-size:clamp(46px,5vw,72px)}
+.moscow-layout{display:grid;grid-template-columns:1.8fr 1fr;gap:24px;align-items:stretch}
+.map-board{position:relative;aspect-ratio:5/4;overflow:hidden;background:var(--surface);border:1px solid var(--line);isolation:isolate}
+.moscow-map{position:absolute;inset:0;width:100%;height:100%;stroke:none}
+.map-grid-line{stroke:var(--line);stroke-width:.6;fill:none;opacity:.6}
+.map-neighborhoods{fill:var(--surface-alt);stroke:var(--surface);stroke-width:8;opacity:.36}
+.map-parks{fill:var(--accent-soft);opacity:.6}
+.map-streets{fill:none;stroke:var(--surface);stroke-width:12;opacity:.9}
+.map-rings{fill:none;stroke:var(--muted);stroke-width:2.5;opacity:.22}
+.map-rings ellipse:nth-child(2){stroke-width:5;stroke:var(--accent);opacity:.6}
+.map-river-edge{stroke:var(--surface);stroke-width:38;fill:none}
+.map-river{stroke:var(--accent-soft);stroke-width:25;fill:none}
+.map-center{fill:var(--accent);opacity:.8;font-family:var(--sans);font-size:15px;letter-spacing:2px}
+.map-labels{fill:var(--muted);font-family:var(--sans);font-size:14px;letter-spacing:2px;opacity:.6}
+.map-labels path{fill:none;stroke:var(--muted);stroke-width:2}
+.map-caption{position:absolute;left:22px;right:22px;bottom:18px;display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted);pointer-events:none}
+.map-pin{position:absolute;left:var(--pin-x);top:var(--pin-y);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:8px;min-height:44px;min-width:44px;z-index:2;color:var(--ink);font-size:14px;white-space:nowrap}
+.pin-dot{height:14px;width:14px;border:2px solid var(--accent);background:var(--surface);border-radius:50%;box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 8%,transparent);transition:box-shadow .2s,background .2s}
+.pin-label{background:var(--surface);padding:4px 10px;border:1px solid var(--line);font-size:14px;line-height:1.5;transition:background .2s,color .2s}
+.map-pin[aria-pressed=true] .pin-dot{background:var(--accent);box-shadow:0 0 0 9px color-mix(in srgb,var(--accent) 13%,transparent)}
+.map-pin[aria-pressed=true] .pin-label{background:var(--accent);border-color:var(--accent);color:var(--white)}
+.map-cursor{position:absolute;top:0;left:0;width:112px;height:112px;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:var(--white);border-radius:50%;z-index:4;pointer-events:none;opacity:0;transition:opacity .18s;box-shadow:0 8px 28px #142c3820}
+.map-cursor.visible{opacity:1}.map-cursor span{font-size:14px;line-height:1.45;text-align:left}.map-cursor b{font-size:20px;font-weight:400}
+.district-card{background:var(--surface);min-width:0;display:flex;flex-direction:column}
+.district-card figure{position:relative}.district-card img{height:195px;filter:saturate(.65)}
+.district-card figcaption{position:absolute;left:14px;bottom:12px;padding:5px 8px;background:var(--surface);font-size:9px;letter-spacing:.02em}
+.district-copy{padding:26px;display:flex;flex-direction:column;flex:1;align-items:flex-start}
+.district-copy .eyebrow{font-size:11px;color:var(--muted)}
+.district-copy h3{font-family:var(--serif);font-size:clamp(32px,3.2vw,46px);line-height:1.1;letter-spacing:-.025em;margin:10px 0 16px}
+.district-copy>p{font-size:15px;line-height:1.8}
+.district-priorities{display:flex;flex-wrap:wrap;gap:7px;margin:20px 0 25px}
+.district-priorities>span{font-size:11px;padding:5px 9px;border:1px solid var(--line);border-radius:20px}
+.district-copy .text-link{margin-top:auto;gap:20px;font-size:14px}
+.district-options{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.district-options button{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:30px;padding:10px 17px;font-size:14px;min-height:44px;transition:background .2s,color .2s}
+.district-options button>span{font-size:10px;opacity:.65}.district-options button[aria-pressed=true]{background:var(--accent);color:var(--white);border-color:var(--accent)}
+.map-note{font-size:13px;margin-top:16px;line-height:1.7}
+@media(hover:hover) and (pointer:fine){.map-board,.map-pin{cursor:none}.map-board:focus-within .map-pin{cursor:pointer}}
+@media(hover:none),(pointer:coarse){.map-cursor{display:none}}
+@media(max-width:1100px){.desktop-nav{gap:17px;font-size:13px}.hero-top .coordinates{display:none}.brand small{font-size:8px}.hero-bottom-label{font-size:10px}.service-top{flex-wrap:wrap}.service-top>span:nth-child(2){white-space:normal}}
+@media(max-width:1000px){.moscow-layout{grid-template-columns:1fr}.district-card{display:grid;grid-template-columns:1fr 1.6fr}.district-card img{height:100%;min-height:270px}.district-copy h3{font-size:43px}.district-card figure{height:100%}}
+@media(max-width:900px){.section-heading-aside{max-width:300px}.section-heading{gap:24px}.section-heading-aside p{font-size:15px}.service-card p{min-height:0}.service-top>span:nth-child(2){font-size:12px}.lifestyle-tabs button{min-width:145px}.review-author{flex-wrap:wrap}.review-author>div>span{font-size:12px}.lifestyle-top>p{max-width:235px}.services-footnote{flex-wrap:wrap}.services-footnote .text-link{margin-left:0}.contact-layout .eyebrow{font-size:10px}.contact-right .button{font-size:13px}}
+@media(max-width:600px){
+  .brand>span{font-size:12px}.brand small{font-size:8px}
+  .section-label,.section-label>span:last-child,.contacts .section-label>span:last-child{font-size:10px}
+  .hero-top{font-size:10px}.hero-top>span:last-child{display:none}
+  .hero-description{display:block;margin-top:25px}.hero-description p{font-size:17px;max-width:none;line-height:1.5;text-wrap:balance}
+  .hero-description .button{font-size:14px;width:100%;max-width:none;margin-top:20px;padding:17px 20px;min-height:54px}
+  .hero-bottom{font-size:12px}.hero-bottom-label{display:none}
+  .about-copy .lead{font-size:17px}.about-copy>p:not(.lead){font-size:16px}
+  .section-heading-aside{max-width:none}.section-heading-aside p{font-size:15px}
+  .metrics-heading{align-items:flex-start}.metrics-heading .demo-tag{font-size:11px;max-width:150px}
+  .metric>span:last-child{font-size:12px;line-height:1.6}.metric{padding-inline:12px}
+  .metric strong small{font-size:11px}
+  .case-facts{font-size:12px;gap:12px}.case-facts>span:not(:first-child):not(:last-child){padding-left:12px}
+  .case-open{font-size:11px;width:73px;height:73px}.case-category,.case-place{font-size:12px}
+  .filters button{font-size:13px;padding:9px 14px}
+  .service-top,.service-top>span:nth-child(2){font-size:11px}.service-card p{font-size:16px;min-height:0}
+  .service-card ul{font-size:14px}.service-bottom small{font-size:12px;max-width:205px}
+  .service-row-title small{font-size:14px}.service-row-index{font-size:11px}
+  .services-footnote p{font-size:13px}.services-footnote .text-link{font-size:14px}
+  .lifestyle-top>p{max-width:none;font-size:15px}.lifestyle-tabs{gap:10px}.lifestyle-tabs button{gap:5px;min-width:0;font-size:10px}.lifestyle-tabs button span{font-size:13px}
+  .lifestyle-result p{font-size:15px;max-width:none}.lifestyle-result{min-height:280px}
+  .lifestyle-cta{font-size:12px;width:102px;height:102px}.lifestyle-footer{font-size:11px}
+  .review-intro>p{font-size:15px;max-width:none}.review-author strong{font-size:15px}.review-author>div>span{font-size:12px}.review-demo{display:none}
+  .contact-layout .eyebrow{font-size:10px}.contact-right>p{font-size:16px}.contact-right .button{font-size:14px}
+  .contact-social,.contact-social button span{font-size:12px}.footer-name>span{font-size:9px}.footer>p{font-size:11px}
+  .detail-dialog p{font-size:16px}.dialog-top>span{font-size:11px}.dialog-facts{font-size:13px}
+  .moscow{padding-top:20px}.moscow .section-heading h2{font-size:48px}
+  .moscow-layout{gap:15px}.map-board{aspect-ratio:1/1}.moscow-map{height:100%;width:100%}
+  .map-caption{font-size:9px;left:13px;right:13px;bottom:12px}.map-labels text,.map-center text{display:none}
+  .map-pin{gap:5px}.pin-label{font-size:12px;padding:3px 7px}.pin-dot{width:12px;height:12px}
+  .map-pin[data-district=khamovniki]{top:58%}
+  .district-card{display:block}.district-card img{min-height:0;height:195px}.district-copy{padding:24px}
+  .district-copy h3{font-size:42px}.district-copy>p{font-size:16px}.district-priorities>span{font-size:12px}
+  .district-options{gap:8px;margin-top:20px}.district-options button{font-size:13px;padding:8px 12px;gap:7px}
+  .map-note{font-size:12px}
+}
+@media(max-width:360px){.contact-layout h2{font-size:65px}.metric>span:last-child{font-size:11px}.filters{gap:6px}.filters button{font-size:12px;padding:9px 12px}.hero-description p{font-size:16px}.section-label>span:last-child{max-width:145px}.lifestyle-tabs button span{font-size:12px}.moscow .section-heading h2{font-size:42px}.pin-label{font-size:11px}.district-copy h3{font-size:37px}.service-bottom strong{font-size:21px}}

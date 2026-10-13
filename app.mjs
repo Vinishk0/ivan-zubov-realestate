@@ -1,4 +1,5 @@
 import { content } from './content.mjs';
+import './map.mjs';
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -89,16 +90,9 @@ $('#vk-placeholder').addEventListener('click', () => {
 });
 
 const video = $('#hero-video');
-const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-let videoUserPaused = motionPreference.matches;
-function updateVideoControl() { const paused = video.paused; $('#video-toggle').setAttribute('aria-label', paused ? 'Включить фоновое видео' : 'Остановить фоновое видео'); $('#video-symbol').textContent = paused ? '▶' : 'Ⅱ'; $('#video-label').textContent = paused ? 'Включить видео' : 'Пауза видео'; }
-async function playVideo() { try { await video.play(); } catch { /* Show poster if autoplay is blocked. */ } updateVideoControl(); }
-video.addEventListener('play', updateVideoControl); video.addEventListener('pause', updateVideoControl);
-video.addEventListener('error', () => { $('#video-label').textContent = 'Видео недоступно'; $('#video-toggle').disabled = true; });
-$('#video-toggle').addEventListener('click', () => { videoUserPaused = !video.paused; if (video.paused) playVideo(); else video.pause(); });
-motionPreference.addEventListener('change', (event) => { videoUserPaused = event.matches; if (event.matches) video.pause(); else playVideo(); });
-if (!motionPreference.matches) playVideo();
-new IntersectionObserver(([entry]) => { if (!entry.isIntersecting) video.pause(); else if (!videoUserPaused) playVideo(); }, {threshold:0.05}).observe($('.hero'));
+async function playVideo() { try { await video.play(); } catch { /* Poster remains if the browser blocks autoplay. */ } }
+playVideo();
+document.addEventListener('visibilitychange', () => { if (document.hidden) video.pause(); else playVideo(); });
 
 const headerObserver = new IntersectionObserver(([entry]) => { $('#header').classList.toggle('scrolled', !entry.isIntersecting); }, { rootMargin: '-80px 0px 0px 0px', threshold: 0 });
 headerObserver.observe($('.hero'));
