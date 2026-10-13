@@ -16,8 +16,11 @@ test('serves the Russian page and ES modules with correct content types', async 
   assert.equal(page.status, 200);
   assert.match(page.headers.get('content-type'), /text\/html/);
   assert.match(await page.text(), /Иван Зубов/);
-  const module = await fetch(`${base}/content.mjs`);
-  assert.match(module.headers.get('content-type'), /javascript/);
+  for (const path of ['/content.mjs', '/app.mjs', '/map.mjs']) {
+    const module = await fetch(base + path);
+    assert.equal(module.status, 200, path);
+    assert.match(module.headers.get('content-type'), /javascript/);
+  }
 });
 
 test('does not serve Git internals, project tools or encoded traversal paths', async () => {
