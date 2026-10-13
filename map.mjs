@@ -47,7 +47,7 @@ clearSearch.addEventListener('click',()=>{search.value='';renderOptions();search
 okrugSelect.addEventListener('change',()=>{renderOptions();if(!map)return;const bounds=window.L.latLngBounds([]);for(const[id,layer]of districtLayers)if(!okrugSelect.value||districts.get(id).okrug===okrugSelect.value)bounds.extend(layer.getBounds());if(bounds.isValid())map.fitBounds(bounds,{padding:[35,45],animate:false});});
 async function initializeMap(){
   const response=await fetch('assets/districts/boundaries.geojson');if(!response.ok)throw Error('District boundaries unavailable');const boundaries=await response.json(),L=window.L;
-  map=L.map('city-map',{scrollWheelZoom:false,zoomControl:false,minZoom:7,maxZoom:18,attributionControl:true,zoomSnap:.25,zoomAnimation:false,markerZoomAnimation:false});
+  map=L.map('city-map',{scrollWheelZoom:false,zoomControl:false,minZoom:7,maxZoom:18,attributionControl:true,zoomSnap:1,zoomAnimation:false,markerZoomAnimation:false});
   L.control.zoom({position:'topright',zoomInTitle:'Приблизить карту',zoomOutTitle:'Отдалить карту'}).addTo(map);map.attributionControl.setPrefix(false);
   const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>'}).addTo(map);
   let loadedTile=false;tiles.on('tileload',()=>{loadedTile=true;document.querySelector('#map-status').hidden=true;});tiles.on('tileerror',()=>{if(!loadedTile)document.querySelector('#map-status').textContent='Подложка карты недоступна. Границы районов и фотографии доступны.';});
