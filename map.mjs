@@ -41,7 +41,7 @@ function selectDistrict(id, focusMap = true) {
   contact.href = `${content.contacts.telegram}?text=${encodeURIComponent(`Иван, здравствуйте! Меня интересует район «${district.name}». Хочу обсудить подбор недвижимости.`)}`;
   styleDistricts();
   const layer = districtLayers.get(id);
-  if (map && layer && focusMap) map.fitBounds(layer.getBounds(), {padding:[42,42],maxZoom:13,animate:!window.matchMedia('(prefers-reduced-motion: reduce)').matches});
+  if (map && layer && focusMap) map.fitBounds(layer.getBounds(), {padding:[42,42],maxZoom:13,animate:false});
 }
 selectDistrict(selectedId, false);
 section.addEventListener('click', event => {
@@ -54,7 +54,7 @@ async function initializeMap() {
   if (!response.ok) throw new Error('District boundaries unavailable');
   const boundaries = await response.json();
   const L = window.L;
-  map = L.map('city-map', {scrollWheelZoom:false,zoomControl:false,minZoom:9,maxZoom:18,attributionControl:true,zoomSnap:0.25});
+  map = L.map('city-map', {scrollWheelZoom:false,zoomControl:false,minZoom:9,maxZoom:18,attributionControl:true,zoomSnap:0.25,zoomAnimation:false,markerZoomAnimation:false});
   L.control.zoom({position:'topright',zoomInTitle:'Приблизить карту',zoomOutTitle:'Отдалить карту'}).addTo(map);
   map.attributionControl.setPrefix(false);
   const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
