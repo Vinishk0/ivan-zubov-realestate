@@ -40,18 +40,22 @@
     <section class="moscow section-wrap" id="moscow" aria-labelledby="moscow-title">
       <div class="section-label"><span>03 / ВАШ АДРЕС</span><span>МОСКВА. С ЛИЧНОЙ ТОЧКИ ЗРЕНИЯ.</span></div>
       <div class="section-heading"><h2 id="moscow-title">Город один.<br> <em>Ваша Москва — своя.</em></h2><div class="section-heading-aside"><p>Нажмите на район.<br> Начнём поиск с того, где вам хочется жить.</p></div></div>
+      <div class="district-searchbar">
+        <label class="district-search"><span>Ваш район</span><input id="district-search" type="search" placeholder="Название района…" autocomplete="off" aria-controls="district-options"><button id="district-search-clear" aria-label="Очистить поиск" hidden>×</button></label>
+        <label class="district-okrug"><span>Округ</span><select id="district-okrug" aria-controls="district-options"><option value="">Все округа</option></select></label>
+        <p id="district-count" role="status">132 района · 12 округов</p>
+      </div>
+      <div class="district-options" id="district-options" role="group" aria-label="Выберите район Москвы"></div>
+      <p id="district-empty" class="empty-state" hidden>Такого района не нашли. Попробуйте другое название или выберите все округа.</p>
       <div class="moscow-layout">
         <div class="map-board" id="map-board">
-          <div id="city-map" aria-label="Карта Москвы с границами выбранных районов"></div>
-          <div class="map-toolbar"><button id="map-reset">Все районы ↗</button></div>
+          <div id="city-map" aria-label="Карта Москвы с границами районов"></div>
+          <div class="map-toolbar"><button id="map-reset">Вся Москва ↗</button></div>
           <p class="map-status" id="map-status" role="status">Загружаем карту Москвы…</p>
-          <div id="map-pins"></div>
           <div class="map-cursor" id="map-cursor" aria-hidden="true"></div>
-          <div class="map-caption"><span>55°45′ N · 37°37′ E</span><span>Схема для макета</span></div>
         </div>
         <aside class="district-card" aria-live="polite"><figure><img id="district-image" src="assets/districts/khamovniki.jpg" alt="Новодевичий монастырь · Хамовники" loading="lazy" width="1200" height="900"><figcaption id="district-photo-caption">Новодевичий монастырь · Хамовники</figcaption></figure><div class="district-copy"><p class="district-photo-credit" id="district-photo-credit"></p><span class="eyebrow" id="district-kicker">МОСКВА / 01</span><h3 id="district-name">Хамовники</h3><p id="district-description"></p><div class="district-priorities" id="district-priorities"></div><a class="text-link" id="district-contact" href="https://t.me/puxanakinul" target="_blank" rel="noopener noreferrer">Обсудить этот район <span aria-hidden="true">↗</span></a></div></aside>
       </div>
-      <div class="district-options" id="district-options" role="group" aria-label="Выберите район Москвы"></div>
       <p class="map-note">Это знакомство с районами, а не каталог объектов. Подбор начинаем с ваших пожеланий и бюджета.</p>
     </section>
     <section class="lifestyle" id="lifestyle"><div class="lifestyle-image"><img id="lifestyle-image" src="assets/living.jpg" alt="Уютная светлая гостиная" width="1600" height="1067" loading="lazy"></div><div class="lifestyle-overlay"></div><div class="lifestyle-inner"><div class="section-label"><span>ЭКСПЕРИМЕНТ / ЧУВСТВО ДОМА</span><span>НА СОГЛАСОВАНИИ</span></div><div class="lifestyle-top"><h2>Сначала жизнь.<br> <em>Потом метры.</em></h2><p>Что для вас значит дом?<br> Выберите своё настроение.</p></div><div class="lifestyle-tabs" role="group" aria-label="Выберите образ жизни"><button data-lifestyle="calm" aria-pressed="true">01 <span>Тишина</span></button><button data-lifestyle="city" aria-pressed="false">02 <span>Ритм города</span></button><button data-lifestyle="family" aria-pressed="false">03 <span>Для семьи</span></button></div><div class="lifestyle-result" aria-live="polite"><div><h3 id="lifestyle-heading">Утро, которое<br> никуда не спешит.</h3><p id="lifestyle-text">Свет в гостиной. Кофе без суеты. Пространство, в котором можно выдохнуть.</p></div><a class="lifestyle-cta" href="https://t.me/puxanakinul" target="_blank" rel="noopener noreferrer"><span>Найдём<br> ваше место</span><span aria-hidden="true">↗</span></a></div><div class="lifestyle-footer"><span id="lifestyle-detail">Тихий двор · естественный свет · личное пространство</span><span>Иллюстрации образа жизни</span></div></div></section>

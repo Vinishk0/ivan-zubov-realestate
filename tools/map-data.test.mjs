@@ -4,6 +4,13 @@ import {readFile,stat} from 'node:fs/promises';
 import {content} from '../content.mjs';
 
 const collection=JSON.parse(await readFile(new URL('../assets/districts/boundaries.geojson',import.meta.url),'utf8'));
+test('covers 132 distinct districts in all 12 Moscow administrative okrugs',()=>{
+  assert.equal(content.districts.length,132);
+  assert.equal(new Set(content.districts.map(d=>d.id)).size,132);
+  assert.equal(new Set(content.districts.map(d=>d.osmId)).size,132);
+  const counts=Object.fromEntries(['ЦАО','САО','СВАО','ВАО','ЮВАО','ЮАО','ЮЗАО','ЗАО','СЗАО','ЗелАО','НАО','ТАО'].map(code=>[code,content.districts.filter(d=>d.okrug===code).length]));
+  assert.deepEqual(counts,{'ЦАО':10,'САО':16,'СВАО':17,'ВАО':16,'ЮВАО':12,'ЮАО':16,'ЮЗАО':12,'ЗАО':12,'СЗАО':8,'ЗелАО':5,'НАО':4,'ТАО':4});
+});
 function insideRing([x,y],ring){
   let inside=false;
   for(let i=0,j=ring.length-1;i<ring.length;j=i++){
@@ -44,5 +51,6 @@ test('district photographs are local JPEGs with source and licence credits',asyn
     assert.equal(bytes[0],0xff);assert.equal(bytes[1],0xd8);
     assert.equal(new URL(district.photoSource).hostname,'commons.wikimedia.org');
     assert.ok(district.photoAuthor&&district.photoLicense&&district.photoCaption);
+    if(district.photoCamera){const[lat,lon]=district.photoCamera;assert.ok(insideGeometry([lon,lat],collection.features.find(f=>f.properties.id===district.id).geometry),district.name+' photo camera');}
   }
 });
