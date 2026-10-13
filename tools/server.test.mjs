@@ -16,7 +16,7 @@ test('serves the Russian page and ES modules with correct content types', async 
   assert.equal(page.status, 200);
   assert.match(page.headers.get('content-type'), /text\/html/);
   assert.match(await page.text(), /Иван Зубов/);
-  for (const path of ['/content.mjs', '/app.mjs', '/map.mjs']) {
+  for (const path of ['/content.mjs', '/districts.mjs', '/app.mjs', '/map.mjs']) {
     const module = await fetch(base + path);
     assert.equal(module.status, 200, path);
     assert.match(module.headers.get('content-type'), /javascript/);
