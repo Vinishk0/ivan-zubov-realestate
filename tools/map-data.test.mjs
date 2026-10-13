@@ -3,12 +3,13 @@ import assert from 'node:assert/strict';
 import {readFile,stat} from 'node:fs/promises';
 import {content} from '../content.mjs';
 
-const collection=JSON.parse(await readFile(new URL('../assets/districts/boundaries.geojson',import.meta.url),'utf8'));
-test('covers 132 distinct districts in all 12 Moscow administrative okrugs',()=>{
-  assert.equal(content.districts.length,132);
-  assert.equal(new Set(content.districts.map(d=>d.id)).size,132);
-  assert.equal(new Set(content.districts.map(d=>d.osmId)).size,132);
-  const counts=Object.fromEntries(['ЦАО','САО','СВАО','ВАО','ЮВАО','ЮАО','ЮЗАО','ЗАО','СЗАО','ЗелАО','НАО','ТАО'].map(code=>[code,content.districts.filter(d=>d.okrug===code).length]));
+const collection=JSON.parse(await readFile(new URL('../assets/districts/okrugs.geojson',import.meta.url),'utf8'));
+test('covers all 12 administrative okrugs and their 132 districts',()=>{
+  assert.equal(content.okrugs.length,12);
+  assert.equal(new Set(content.okrugs.map(d=>d.id)).size,12);
+  assert.equal(new Set(content.okrugs.map(d=>d.osmId)).size,12);
+  assert.equal(content.okrugs.reduce((total,d)=>total+d.districtCount,0),132);
+  const counts=Object.fromEntries(content.okrugs.map(d=>[d.code,d.districtCount]));
   assert.deepEqual(counts,{'ЦАО':10,'САО':16,'СВАО':17,'ВАО':16,'ЮВАО':12,'ЮАО':16,'ЮЗАО':12,'ЗАО':12,'СЗАО':8,'ЗелАО':5,'НАО':4,'ТАО':4});
 });
 function insideRing([x,y],ring){
@@ -24,9 +25,9 @@ function insideGeometry(point,geometry){
   return polygons.some(rings=>insideRing(point,rings[0])&&!rings.slice(1).some(ring=>insideRing(point,ring)));
 }
 
-test('every displayed district has a closed OpenStreetMap boundary',()=>{
-  assert.equal(collection.features.length,content.districts.length);
-  for(const district of content.districts){
+test('every displayed okrug has a closed OpenStreetMap boundary',()=>{
+  assert.equal(collection.features.length,content.okrugs.length);
+  for(const district of content.okrugs){
     const feature=collection.features.find(f=>f.properties.id===district.id);
     assert.ok(feature,district.id);
     assert.equal(feature.properties.osmType,'relation');
@@ -35,16 +36,16 @@ test('every displayed district has a closed OpenStreetMap boundary',()=>{
   }
 });
 
-test('district markers lie within their real district boundaries',()=>{
-  for(const district of content.districts){
+test('okrug markers lie within their real administrative boundaries',()=>{
+  for(const district of content.okrugs){
     const feature=collection.features.find(f=>f.properties.id===district.id);
     const [lat,lon]=district.coordinates;
     assert.ok(insideGeometry([lon,lat],feature.geometry),district.name);
   }
 });
 
-test('district photographs are local JPEGs with source and licence credits',async()=>{
-  for(const district of content.districts){
+test('okrug photographs are local JPEGs with source and licence credits',async()=>{
+  for(const district of content.okrugs){
     const file=new URL(`../${district.image}`,import.meta.url);
     assert.ok((await stat(file)).size>20000,district.name);
     const bytes=await readFile(file);
