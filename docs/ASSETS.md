@@ -4,13 +4,13 @@
 
 ## Видео
 
-- Mixkit: [Flying over buildings in a big city](https://mixkit.co/free-stock-video/flying-over-buildings-in-a-big-city-49852/), ролик 49852, превью 720p. [Mixkit Stock Video Free License](https://mixkit.co/license/#videoFree). Локальный файл `assets/hero.mp4`.
+- Mixkit: [Flying slowly over a big city](https://mixkit.co/free-stock-video/flying-slowly-over-a-big-city-49806/), ролик 49806, превью 720p. [Mixkit Stock Video Free License](https://mixkit.co/license/#videoFree). Локальный файл `assets/hero.mp4`.
 
 ## Фото
 
 Источник — Unsplash, [лицензия](https://unsplash.com/license). Локальные файлы:
 
-- `hero.jpg` — https://unsplash.com/photos/1486406146926-c627a92ad1ab (идентификатор CDN: photo-1486406146926-c627a92ad1ab).
+- `hero.jpg` — https://images.unsplash.com/photo-1486406146926-c627a92ad1ab (фото для резервного фона).
 - `portrait.jpg` — CDN: photo-1560250097-0b93528c311a (стоковый портрет, не Иван).
 - `living.jpg` — CDN: photo-1600210492486-724fe5c67fb0.
 - `interior.jpg` — CDN: photo-1600607687920-4e2a09cf159d.

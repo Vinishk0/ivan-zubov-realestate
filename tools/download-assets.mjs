@@ -10,7 +10,7 @@ const photos = {
   'city.jpg': ['photo-1511818966892-d7d671e672a2', 1600],
 };
 const entries = Object.entries(photos).map(([name, [id, width]]) => [name, `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`]);
-entries.push(['hero.mp4', 'https://assets.mixkit.co/videos/49852/49852-720.mp4']);
+entries.push(['hero.mp4', 'https://assets.mixkit.co/videos/49806/49806-720.mp4']);
 await Promise.all(entries.map(async ([name, url]) => {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`${name}: ${response.status}`);
