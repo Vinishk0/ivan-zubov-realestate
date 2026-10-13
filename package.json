@@ -1,0 +1,14 @@
+{
+  "name": "ivan-zubov-realestate",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Локальный дизайн-макет сайта риэлтора Ивана Зубова",
+  "scripts": {
+    "dev": "node tools/server.mjs",
+    "build": "node tools/build.mjs",
+    "check": "node --check app.mjs && node --check content.mjs && node --check tools/server.mjs",
+    "test": "node --test tools/server.test.mjs"
+  },
+  "engines": { "node": ">=20" }
+}
