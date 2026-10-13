@@ -8,7 +8,7 @@
     "dev": "node tools/server.mjs",
     "build": "node tools/build.mjs",
     "check": "node --check app.mjs && node --check content.mjs && node --check map.mjs && node --check tools/server.mjs",
-    "test": "node --test tools/server.test.mjs"
+    "test": "node --test tools/server.test.mjs tools/map-data.test.mjs"
   },
   "engines": { "node": ">=20" }
 }

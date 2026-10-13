@@ -9,6 +9,7 @@
   <title>Иван Зубов — недвижимость с личным подходом</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/fonts.css">
+  <link rel="stylesheet" href="assets/vendor/leaflet.css">
   <link rel="stylesheet" href="styles.css">
   <script type="module" src="app.mjs"></script>
 </head>
@@ -41,23 +42,14 @@
       <div class="section-heading"><h2 id="moscow-title">Город один.<br> <em>Ваша Москва — своя.</em></h2><div class="section-heading-aside"><p>Нажмите на район.<br> Начнём поиск с того, где вам хочется жить.</p></div></div>
       <div class="moscow-layout">
         <div class="map-board" id="map-board">
-          <svg class="moscow-map" viewBox="0 0 1000 800" preserveAspectRatio="none" role="img" aria-label="Условная схема Москвы с рекой, кольцами и пятью районами. География упрощена для макета.">
-            <defs><pattern id="map-grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" class="map-grid-line"/></pattern></defs>
-            <rect width="1000" height="800" fill="url(#map-grid)"/>
-            <g class="map-neighborhoods"><path d="M115 168 312 84 437 234 365 369 155 362Z"/><path d="M347 254 465 171 680 196 739 347 666 399 421 407Z"/><path d="M677 212 872 160 927 352 853 493 702 420Z"/><path d="M153 410 377 416 443 553 312 675 136 637Z"/><path d="M443 458 600 423 708 553 597 732 389 688Z"/><path d="M730 491 880 530 871 724 678 752 666 629Z"/></g>
-            <g class="map-parks"><path d="M106 80 205 72 247 137 154 184 91 144Z"/><path d="M740 89 874 74 916 150 814 196 753 165Z"/><path d="M59 566 144 521 240 591 203 717 115 755 42 653Z"/><path d="M793 565 900 593 912 676 828 710 749 651Z"/></g>
-            <g class="map-streets"><path d="M68 207 942 618M118 750 778 51M72 448 943 330M258 50 678 756M45 548 822 234M401 40 575 766M123 660 893 493"/></g>
-            <g class="map-rings"><ellipse cx="535" cy="390" rx="365" ry="290"/><ellipse cx="535" cy="390" rx="238" ry="196"/><ellipse cx="535" cy="390" rx="111" ry="94"/></g>
-            <path class="map-river-edge" d="M-30 545C112 548 151 417 262 438S303 603 409 598 442 467 550 495 588 648 720 628 803 702 1040 725"/>
-            <path class="map-river" d="M-30 545C112 548 151 417 262 438S303 603 409 598 442 467 550 495 588 648 720 628 803 702 1040 725"/>
-            <g class="map-center"><path d="m530 377 15 25h-30Z"/><text x="553" y="398">ЦЕНТР</text></g>
-            <g class="map-labels"><text x="728" y="444" transform="rotate(-38 728 444)">САДОВОЕ КОЛЬЦО</text><text x="831" y="691" transform="rotate(12 831 691)">МОСКВА-РЕКА</text><text x="92" y="110">С</text><path d="M99 138v30m-6-20 6-10 6 10"/></g>
-          </svg>
+          <div id="city-map" aria-label="Карта Москвы с границами выбранных районов"></div>
+          <div class="map-toolbar"><button id="map-reset">Все районы ↗</button></div>
+          <p class="map-status" id="map-status" role="status">Загружаем карту Москвы…</p>
           <div id="map-pins"></div>
-          <div class="map-cursor" id="map-cursor" aria-hidden="true"><span id="map-cursor-text">Найдём<br> ваш адрес</span><b>↗</b></div>
+          <div class="map-cursor" id="map-cursor" aria-hidden="true"></div>
           <div class="map-caption"><span>55°45′ N · 37°37′ E</span><span>Схема для макета</span></div>
         </div>
-        <aside class="district-card" aria-live="polite"><figure><img id="district-image" src="assets/living.jpg" alt="Стоковая иллюстрация интерьера" loading="lazy" width="1200" height="900"><figcaption>ОБРАЗ ЖИЗНИ · СТОКОВАЯ ИЛЛЮСТРАЦИЯ</figcaption></figure><div class="district-copy"><span class="eyebrow" id="district-kicker">МОСКВА / 01</span><h3 id="district-name">Хамовники</h3><p id="district-description"></p><div class="district-priorities" id="district-priorities"></div><a class="text-link" id="district-contact" href="https://t.me/puxanakinul" target="_blank" rel="noopener noreferrer">Обсудить этот район <span aria-hidden="true">↗</span></a></div></aside>
+        <aside class="district-card" aria-live="polite"><figure><img id="district-image" src="assets/districts/khamovniki.jpg" alt="Новодевичий монастырь · Хамовники" loading="lazy" width="1200" height="900"><figcaption id="district-photo-caption">Новодевичий монастырь · Хамовники</figcaption></figure><div class="district-copy"><p class="district-photo-credit" id="district-photo-credit"></p><span class="eyebrow" id="district-kicker">МОСКВА / 01</span><h3 id="district-name">Хамовники</h3><p id="district-description"></p><div class="district-priorities" id="district-priorities"></div><a class="text-link" id="district-contact" href="https://t.me/puxanakinul" target="_blank" rel="noopener noreferrer">Обсудить этот район <span aria-hidden="true">↗</span></a></div></aside>
       </div>
       <div class="district-options" id="district-options" role="group" aria-label="Выберите район Москвы"></div>
       <p class="map-note">Это знакомство с районами, а не каталог объектов. Подбор начинаем с ваших пожеланий и бюджета.</p>
