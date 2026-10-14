@@ -5,3 +5,26 @@
   filter: none;
   mix-blend-mode: normal;
 }
+
+.review-display blockquote {
+  display: flex;
+  align-items: center;
+  height: clamp(290px, 22vw, 330px);
+  min-height: 0;
+  overflow: hidden;
+  text-wrap: balance;
+}
+
+@media (max-width: 900px) {
+  .review-display blockquote {
+    height: 330px;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .review-display blockquote {
+    height: 390px;
+    min-height: 0;
+  }
+}
