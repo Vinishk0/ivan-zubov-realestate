@@ -35,7 +35,6 @@ function selectOkrug(id, focusMap = true) {
   photo.alt = okrug.photoCaption;
   photo.style.objectPosition = okrug.photoPosition || '50% 50%';
   document.querySelector('#district-photo-caption').textContent = okrug.photoCaption;
-  document.querySelector('#district-photo-credit').innerHTML = `<a href="${escape(okrug.photoSource)}" target="_blank" rel="noopener noreferrer">Фото: ${escape(okrug.photoAuthor)} ↗</a> · <a href="${escape(okrug.photoLicenseUrl)}" target="_blank" rel="noopener noreferrer">${escape(okrug.photoLicense)}</a>`;
   document.querySelector('#district-priorities').innerHTML = okrug.priorities.map(priority => `<span>${escape(priority)}</span>`).join('');
   const contact = document.querySelector('#district-contact');
   contact.setAttribute('aria-label', `Обсудить ${okrug.officialName} с Иваном в Telegram`);

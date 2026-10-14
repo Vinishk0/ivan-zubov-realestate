@@ -168,9 +168,7 @@ body{font-size:16px}
 .map-board .leaflet-control-attribution a{color:var(--accent)}
 .district-card img{filter:none;height:225px}
 .district-card figcaption{font-size:11px;line-height:1.6;left:12px;right:12px;bottom:12px;width:fit-content;max-width:calc(100% - 24px)}
-.district-copy>.district-photo-credit{font-size:11px;line-height:1.7;margin-bottom:19px;color:var(--muted)}
-.district-photo-credit a{border-bottom:1px solid var(--line)}
 @media(hover:hover) and (pointer:fine){.map-board #city-map,.map-board .leaflet-interactive,.map-board .map-pin{cursor:none}.map-board .leaflet-control,.map-board .map-toolbar,.map-board .leaflet-control a{cursor:pointer}}
 @media(max-width:1000px){.district-card img{height:100%;min-height:310px}.district-copy{min-width:0}}
-@media(max-width:600px){.map-board{aspect-ratio:auto;height:430px}.district-card figure{height:auto}.district-card img{height:225px;min-height:0}.district-card figcaption{font-size:11px}.map-toolbar{top:12px;left:12px}.map-toolbar button{font-size:12px;padding:10px 12px}.map-board .leaflet-control-zoom{margin:12px}.map-board .leaflet-control-attribution{font-size:10px}.district-copy>.district-photo-credit{font-size:11px}.district-marker-host .map-pin .pin-label{font-size:12px}}
+@media(max-width:600px){.map-board{aspect-ratio:auto;height:430px}.district-card figure{height:auto}.district-card img{height:225px;min-height:0}.district-card figcaption{font-size:11px}.map-toolbar{top:12px;left:12px}.map-toolbar button{font-size:12px;padding:10px 12px}.map-board .leaflet-control-zoom{margin:12px}.map-board .leaflet-control-attribution{font-size:10px}.district-marker-host .map-pin .pin-label{font-size:12px}}
 @media(max-width:600px){.district-marker-host .map-pin[data-district=zamoskvorechye] .pin-label{top:auto;bottom:37px}}

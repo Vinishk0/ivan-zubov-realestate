@@ -46,11 +46,11 @@ $('#dialog-close').addEventListener('click', closeDialog);
 dialog.addEventListener('close', () => document.body.classList.remove('dialog-open'));
 dialog.addEventListener('click', (event) => { if (event.target === dialog) { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeDialog(); } });
 const contactButton = () => `<a class="button button-accent" href="${escape(content.contacts.telegram)}" target="_blank" rel="noopener noreferrer">Обсудить в Telegram <span aria-hidden="true">↗</span></a>`;
-$('#biography-button').addEventListener('click', () => openDialog('01 / ЗНАКОМСТВО · ПРИМЕР ТЕКСТА', `<h2 id="dialog-title">${escape(content.biography.title)}</h2>${content.biography.paragraphs.map((p) => `<p>${escape(p)}</p>`).join('')}<p class="dialog-note">Биография — демонстрационный текст. Факты об Иване добавим после согласования.</p>${contactButton()}`));
+$('#biography-button').addEventListener('click', () => openDialog('01 / ЗНАКОМСТВО', `<h2 id="dialog-title">${escape(content.biography.title)}</h2>${content.biography.paragraphs.map((p) => `<p>${escape(p)}</p>`).join('')}${contactButton()}`));
 
 function renderCases(filter = 'all') {
   const cases = content.cases.filter((item) => filter === 'all' || item.type === filter);
-  $('#case-grid').innerHTML = cases.map((item, i) => `<button class="case-card" data-case="${escape(item.id)}" aria-label="Открыть пример кейса: ${escape(item.title.replace('\n', ' '))}"><div class="case-image"><img src="${escape(item.image)}" alt="${escape(item.alt)}" loading="lazy" width="1200" height="900"><span class="case-category">${escape(item.category)}</span><span class="case-open" aria-hidden="true">Смотреть<br>историю ↗</span></div><div class="case-info"><span class="case-place">${escape(item.place)}</span><h3>${lines(item.title)}</h3><div class="case-facts">${item.facts.map((fact) => `<span>${escape(fact)}</span>`).join('')}<span class="case-arrow" aria-hidden="true">↗</span></div></div></button>`).join('');
+  $('#case-grid').innerHTML = cases.map((item, i) => `<button class="case-card" data-case="${escape(item.id)}" aria-label="Открыть кейс: ${escape(item.title.replace('\n', ' '))}"><div class="case-image"><img src="${escape(item.image)}" alt="${escape(item.alt)}" loading="lazy" width="1200" height="900"><span class="case-category">${escape(item.category)}</span><span class="case-open" aria-hidden="true">Смотреть<br>историю ↗</span></div><div class="case-info"><span class="case-place">${escape(item.place)}</span><h3>${lines(item.title)}</h3><div class="case-facts">${item.facts.map((fact) => `<span>${escape(fact)}</span>`).join('')}<span class="case-arrow" aria-hidden="true">↗</span></div></div></button>`).join('');
   $('#case-empty').hidden = cases.length > 0;
 }
 renderCases();
@@ -58,7 +58,7 @@ $$('[data-filter]').forEach((button) => button.addEventListener('click', () => {
 $('#case-grid').addEventListener('click', (event) => {
   const button = event.target.closest('[data-case]'); if (!button) return;
   const item = content.cases.find((candidate) => candidate.id === button.dataset.case);
-  openDialog('02 / ИСТОРИЯ · ДЕМОНСТРАЦИОННЫЙ КЕЙС', `<img class="dialog-image" src="${escape(item.image)}" alt="${escape(item.alt)}"><span class="eyebrow">${escape(item.place)}</span><h2 id="dialog-title">${lines(item.title)}</h2><div class="dialog-facts">${item.facts.map((fact) => `<span>${escape(fact)}</span>`).join('')}</div><h3>Задача</h3><p>${escape(item.task)}</p><h3>Как работали</h3><p>${escape(item.process)}</p><h3>Результат</h3><p>${escape(item.result)}</p><p class="dialog-note">${escape(item.price)}. Сценарий и цифры приведены для макета; это не реальная сделка Ивана.</p>${contactButton()}`);
+  openDialog('02 / ИСТОРИЯ СДЕЛКИ', `<img class="dialog-image" src="${escape(item.image)}" alt="${escape(item.alt)}"><span class="eyebrow">${escape(item.place)}</span><h2 id="dialog-title">${lines(item.title)}</h2><div class="dialog-facts">${item.facts.map((fact) => `<span>${escape(fact)}</span>`).join('')}</div><h3>Задача</h3><p>${escape(item.task)}</p><h3>Как работали</h3><p>${escape(item.process)}</p><h3>Результат</h3><p>${escape(item.result)}</p><p class="dialog-note">${escape(item.price)}</p>${contactButton()}`);
 });
 
 $$('[data-lifestyle]').forEach((button) => button.addEventListener('click', () => {
@@ -72,7 +72,7 @@ $('#service-grid').innerHTML = content.services.slice(0, 3).map((item, i) => `<a
 $('#service-rows').innerHTML = content.services.slice(3).map((item, i) => `<button class="service-row" data-service="${i+3}"><span class="service-row-index">0${i+4}</span><span class="service-row-title">${escape(item.title)}<small>${escape(item.text)}</small></span><strong>${escape(item.price)}</strong><span class="service-row-arrow" aria-hidden="true">↗</span></button>`).join('');
 $$('[data-service]').forEach((button) => button.addEventListener('click', () => {
   const item = content.services[Number(button.dataset.service)];
-  openDialog('04 / УСЛУГА · ПРИМЕР ДЛЯ МАКЕТА', `<h2 id="dialog-title">${lines(item.title)}</h2><p>${escape(item.text)}</p><ul class="dialog-list">${item.items.map((line) => `<li>${escape(line)}</li>`).join('')}</ul><div class="dialog-price">${escape(item.price)}</div><p class="dialog-note">Пример стоимости. Реальные условия и объём услуг будут согласованы с Иваном.</p>${contactButton()}`);
+  openDialog('04 / УСЛУГА', `<h2 id="dialog-title">${lines(item.title)}</h2><p>${escape(item.text)}</p><ul class="dialog-list">${item.items.map((line) => `<li>${escape(line)}</li>`).join('')}</ul><div class="dialog-price">${escape(item.price)}</div><p class="dialog-note">Точный объём работы и стоимость определим после обсуждения вашей задачи.</p>${contactButton()}`);
 }));
 
 let reviewIndex = 0;
@@ -83,12 +83,6 @@ function renderReview() {
 renderReview();
 $('#review-prev').addEventListener('click', () => { reviewIndex = (reviewIndex-1+content.reviews.length)%content.reviews.length; renderReview(); });
 $('#review-next').addEventListener('click', () => { reviewIndex = (reviewIndex+1)%content.reviews.length; renderReview(); });
-let toastTimer;
-$('#vk-placeholder').addEventListener('click', () => {
-  if (content.contacts.vk) { window.open(content.contacts.vk, '_blank', 'noopener,noreferrer'); return; }
-  $('#toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { $('#toast').hidden = true; }, 4000);
-});
-
 const video = $('#hero-video');
 async function playVideo() { try { await video.play(); } catch { /* Poster remains if the browser blocks autoplay. */ } }
 playVideo();
