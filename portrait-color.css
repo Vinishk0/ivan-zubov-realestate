@@ -1,0 +1,7 @@
+.portrait img {
+  height: auto !important;
+  aspect-ratio: 2 / 3;
+  object-position: center bottom !important;
+  filter: none;
+  mix-blend-mode: normal;
+}

@@ -4,8 +4,8 @@ import { dirname, resolve, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.geojson': 'application/geo+json; charset=utf-8', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.mp4': 'video/mp4', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
-const allowed = new Set(['/index.html', '/styles.css', '/app.mjs', '/content.mjs', '/okrugs.mjs', '/map.mjs', '/favicon.svg']);
+const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.geojson': 'application/geo+json; charset=utf-8', '.jpg': 'image/jpeg', '.png': 'image/png', '.svg': 'image/svg+xml', '.mp4': 'video/mp4', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
+const allowed = new Set(['/index.html', '/styles.css', '/portrait-color.css', '/app.mjs', '/content.mjs', '/okrugs.mjs', '/map.mjs', '/favicon.svg']);
 
 export function createServer() {
   return http.createServer(async (req, res) => {
