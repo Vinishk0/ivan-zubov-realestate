@@ -57,7 +57,13 @@ $('#case-grid').addEventListener('click', (event) => {
   const button = event.target.closest('[data-case]'); if (!button) return;
   const item = content.cases.find((candidate) => candidate.id === button.dataset.case);
   const caseName = item.title.replace('\n', ' ');
-  openDialog('02 / ИСТОРИЯ СДЕЛКИ', `<img class="dialog-image" src="${escape(item.image)}" alt="${escape(item.alt)}"><span class="eyebrow">${escape(item.place)}</span><h2 id="dialog-title">${lines(item.title)}</h2><div class="dialog-facts">${item.facts.map((fact) => `<span>${escape(fact)}</span>`).join('')}</div><h3>Задача</h3><p>${escape(item.task)}</p><h3>Как работали</h3><p>${escape(item.process)}</p><h3>Результат</h3><p>${escape(item.result)}</p><p class="dialog-note">${escape(item.price)}</p>${contactButton(`Иван, здравствуйте! Меня заинтересовал кейс «${caseName}». Хочу обсудить похожую задачу.`)}`);
+  const list = (items) => `<ul class="dialog-list">${items.map((line) => `<li>${escape(line)}</li>`).join('')}</ul>`;
+  const story = item.story ? `<p class="dialog-story">${escape(item.story)}</p>` : '';
+  const reviewProof = item.reviewProof ? `<figure class="case-review-proof"><img src="${escape(item.reviewProof.image)}" alt="${escape(item.reviewProof.alt)}" loading="lazy" width="955" height="800"><figcaption>${escape(item.reviewProof.caption)}</figcaption></figure>` : '';
+  const details = item.conditions
+    ? `<h3>Задача</h3><p>${escape(item.task)}</p><h3>Исходные условия</h3>${list(item.conditions)}<h3>Сложности</h3>${list(item.challenges)}<h3>Решение</h3>${list(item.solution)}<h3>Результат</h3>${list(item.results)}`
+    : `<h3>Задача</h3><p>${escape(item.task)}</p><h3>Как работали</h3><p>${escape(item.process)}</p><h3>Результат</h3><p>${escape(item.result)}</p>`;
+  openDialog('02 / ИСТОРИЯ СДЕЛКИ', `<img class="dialog-image" src="${escape(item.image)}" alt="${escape(item.alt)}"><span class="eyebrow">${escape(item.place)}</span><h2 id="dialog-title">${lines(item.title)}</h2><div class="dialog-facts">${item.facts.map((fact) => `<span>${escape(fact)}</span>`).join('')}</div>${story}${reviewProof}${details}<p class="dialog-note">${escape(item.price)}</p>${contactButton(`Иван, здравствуйте! Меня заинтересовал кейс «${caseName}». Хочу обсудить похожую задачу.`)}`);
 });
 
 const lifestyleContact = $('.lifestyle-cta');
