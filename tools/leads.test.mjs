@@ -48,6 +48,21 @@ test('test mode sends only to the test profile with a test label', async () => {
   const missingTestRecipient = createLeadHandler({ env: { ...env, VK_TEST_MODE: 'true' } });
   assert.equal((await request(missingTestRecipient)).status, 503);
 });
+test('joint test sends both copies with stable distinct IDs and reports partial failure', async () => {
+  const calls = [];
+  let failOwner = false;
+  const handler = createLeadHandler({ env: { ...env, VK_TEST_MODE: 'true', VK_TEST_COPY_TO_OWNER: 'true', VK_TEST_PEER_ID: '67890' }, limiter: new Map(), fetchImpl: async (_url, options) => {
+    calls.push(options.body);
+    return { ok: true, json: async () => failOwner && options.body.get('peer_id') === '12345' ? { error: { error_code: 901 } } : { response: 42 } };
+  } });
+  assert.equal((await request(handler)).status, 200);
+  assert.deepEqual(calls.map(p => p.get('peer_id')), ['67890', '12345']);
+  assert.notEqual(calls[0].get('random_id'), calls[1].get('random_id'));
+  failOwner = true;
+  assert.equal((await request(handler)).status, 502);
+  assert.equal(calls[0].get('random_id'), calls[2].get('random_id'));
+  assert.equal(calls[1].get('random_id'), calls[3].get('random_id'));
+});
 test('production mode supports the configured profile address', async () => {
   let params;
   const handler = createLeadHandler({ env: { VK_COMMUNITY_TOKEN: 'test-secret', VK_RECIPIENT_DOMAIN: 'prostozubov', VK_TEST_MODE: 'false' }, limiter: new Map(), fetchImpl: async (_url, options) => { params = options.body; return { ok: true, json: async () => ({ response: 42 }) }; } });

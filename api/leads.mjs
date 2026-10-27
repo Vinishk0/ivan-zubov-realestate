@@ -44,7 +44,12 @@ export function createLeadHandler({ env = process.env, fetchImpl = fetch, now = 
     const domain = testMode ? env.VK_TEST_RECIPIENT_DOMAIN : env.VK_RECIPIENT_DOMAIN;
     const recipient = /^[1-9]\d*$/.test(peerId || '') ? { peer_id: peerId }
       : /^[a-z][a-z0-9_.]{2,63}$/i.test(domain || '') ? { domain } : null;
-    if (!env.VK_COMMUNITY_TOKEN || !recipient) return reply(res, 503, 'Приём заявок пока настраивается. Пожалуйста, напишите Ивану в Telegram или позвоните.');
+    const copyToOwner = testMode && env.VK_TEST_COPY_TO_OWNER === 'true';
+    const owner = /^[1-9]\d*$/.test(env.VK_PEER_ID || '') ? { peer_id: env.VK_PEER_ID }
+      : /^[a-z][a-z0-9_.]{2,63}$/i.test(env.VK_RECIPIENT_DOMAIN || '') ? { domain: env.VK_RECIPIENT_DOMAIN } : null;
+    if (!env.VK_COMMUNITY_TOKEN || !recipient || (copyToOwner && !owner)) return reply(res, 503, 'Приём заявок пока настраивается. Пожалуйста, напишите Ивану в Telegram или позвоните.');
+    const recipients = [recipient];
+    if (copyToOwner && JSON.stringify(owner) !== JSON.stringify(recipient)) recipients.push(owner);
     // Per-instance throttle supplements the honeypot; use platform firewall limits for distributed traffic.
     const time = now();
     for (const [key, value] of limiter) if (value.expires <= time) limiter.delete(key);
@@ -55,15 +60,18 @@ export function createLeadHandler({ env = process.env, fetchImpl = fetch, now = 
     attempt.count++; limiter.set(key, attempt);
     const intent = body.intent === 'buy' ? 'Покупка' : 'Продажа';
     const message = `Новая заявка с сайта Ивана Зубова\n\nИмя: ${name}\nЗадача: ${intent}\n${body.intent === 'buy' ? 'Бюджет' : 'Желаемая цена'}: ${new Intl.NumberFormat('ru-RU').format(budget)} ₽\nКонтакт: ${contact}\n\nЗаявка: ${body.requestId}`;
-    const randomId = createHash('sha256').update(`${body.requestId}:${name}:${contact}:${budget}:${body.intent}`).digest().readUInt32BE(0) & 0x7fffffff;
     try {
+      const deliveries = await Promise.allSettled(recipients.map(async (destination) => {
+      const randomId = createHash('sha256').update(`${body.requestId}:${name}:${contact}:${budget}:${body.intent}:${JSON.stringify(destination)}`).digest().readUInt32BE(0) & 0x7fffffff;
       const response = await fetchImpl('https://api.vk.com/method/messages.send', {
         method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ access_token: env.VK_COMMUNITY_TOKEN, ...recipient, random_id: String(randomId || 1), message: testMode ? `[ТЕСТ]\n${message}` : message, v: '5.199' }),
+        body: new URLSearchParams({ access_token: env.VK_COMMUNITY_TOKEN, ...destination, random_id: String(randomId || 1), message: testMode ? `[ТЕСТ]\n${message}` : message, v: '5.199' }),
         signal: AbortSignal.timeout(12000)
       });
       const data = await response.json();
       if (!response.ok || data.error || !Number.isInteger(data.response) || data.response <= 0) throw new Error('VK rejected notification');
+      }));
+      if (deliveries.some((delivery) => delivery.status === 'rejected')) throw new Error('Incomplete delivery');
       return reply(res, 200, 'Заявка доставлена.', true);
     } catch { return reply(res, 502, 'Не удалось подтвердить доставку. Повторите отправку или свяжитесь с Иваном в Telegram.'); }
   };
