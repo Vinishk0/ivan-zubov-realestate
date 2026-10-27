@@ -74,23 +74,62 @@ $('#review-read').addEventListener('click', () => {
 });
 $('#reasons-grid').innerHTML = content.reasons.map((item, index) => `<article class="reason"><span class="eyebrow">0${index + 1}</span><h3>${escape(item.title)}</h3><p>${escape(item.text)}</p></article>`).join('');
 $('#faq-list').innerHTML = content.faq.map((item) => `<details class="faq-item"><summary>${escape(item.question)}<span aria-hidden="true">+</span></summary><div class="faq-answer"><p>${escape(item.answer)}</p>${item.steps ? `<ol>${item.steps.map((step) => `<li>${escape(step)}</li>`).join('')}</ol>` : ''}</div></details>`).join('');
-const video = $('#hero-video');
-const videoToggle = $('#video-toggle');
+const slides = $$('.hero-slide');
+const slideshowToggle = $('#slideshow-toggle');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-let videoPaused = reducedMotion.matches;
-function syncVideoControl() {
-  videoToggle.setAttribute('aria-pressed', String(videoPaused));
-  videoToggle.setAttribute('aria-label', videoPaused ? 'Воспроизвести видео' : 'Приостановить видео');
-  videoToggle.innerHTML = videoPaused ? 'Смотреть <span aria-hidden="true">▷</span>' : 'Пауза <span aria-hidden="true">Ⅱ</span>';
+let slideshowPaused = reducedMotion.matches;
+let slideIndex = 0;
+let slideTimer;
+function syncSlideshow() {
+  clearInterval(slideTimer);
+  $('.hero-slideshow').classList.toggle('is-paused', slideshowPaused || document.hidden);
+  slideshowToggle.setAttribute('aria-pressed', String(slideshowPaused));
+  slideshowToggle.setAttribute('aria-label', slideshowPaused ? 'Продолжить слайдшоу' : 'Приостановить слайдшоу');
+  slideshowToggle.innerHTML = slideshowPaused ? 'Смотреть <span aria-hidden="true">▷</span>' : 'Пауза <span aria-hidden="true">Ⅱ</span>';
+  if (!slideshowPaused && !document.hidden) slideTimer = setInterval(() => {
+    const next = (slideIndex + 1) % slides.length;
+    if (!slides[next].complete || !slides[next].naturalWidth) return;
+    slides[slideIndex].classList.remove('is-active');
+    slideIndex = next;
+    slides[slideIndex].classList.add('is-active');
+    $('#slide-count').textContent = `${String(slideIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+  }, 6500);
 }
-async function playVideo() {
-  if (videoPaused || document.hidden) { video.pause(); return; }
-  try { await video.play(); } catch { videoPaused = true; syncVideoControl(); }
-}
-videoToggle.addEventListener('click', () => { videoPaused = !videoPaused; syncVideoControl(); playVideo(); });
-reducedMotion.addEventListener('change', (event) => { videoPaused = event.matches; syncVideoControl(); playVideo(); });
-syncVideoControl(); playVideo();
-document.addEventListener('visibilitychange', playVideo);
+slideshowToggle.addEventListener('click', () => { slideshowPaused = !slideshowPaused; syncSlideshow(); });
+reducedMotion.addEventListener('change', (event) => { slideshowPaused = event.matches; syncSlideshow(); });
+document.addEventListener('visibilitychange', syncSlideshow);
+syncSlideshow();
+
+const leadForm = $('#lead-form');
+$('#contacts').before($('#request'));
+$('.hero-description .button').href = '#request';
+$('.hero-description .button').removeAttribute('target');
+$('.hero-description .button').removeAttribute('rel');
+let leadRequestId = crypto.randomUUID();
+leadForm.addEventListener('change', () => {
+  $('#budget-label').textContent = leadForm.elements.intent.value === 'sell' ? 'Желаемая стоимость продажи, ₽' : 'Бюджет покупки, ₽';
+});
+leadForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  if (!leadForm.reportValidity()) return;
+  const button = leadForm.querySelector('[type="submit"]');
+  if (button.disabled) return;
+  const status = $('#lead-status');
+  button.disabled = true;
+  status.textContent = 'Отправляем заявку…';
+  const fields = Object.fromEntries(new FormData(leadForm));
+  try {
+    const response = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...fields, requestId: leadRequestId }), signal: AbortSignal.timeout(20000) });
+    const result = await response.json();
+    if (!response.ok || !result.ok) throw new Error(result.message || 'Не удалось отправить заявку. Попробуйте ещё раз или напишите Ивану в Telegram.');
+    status.textContent = 'Заявка доставлена Ивану. Он свяжется с вами по указанному контакту.';
+    leadForm.reset();
+    $('#budget-label').textContent = 'Бюджет покупки, ₽';
+    leadRequestId = crypto.randomUUID();
+  } catch (error) {
+    status.textContent = error.name === 'TimeoutError' ? 'Подтверждение не получено. Повторите отправку или напишите Ивану в Telegram.' : error.message;
+  } finally { button.disabled = false; }
+});
 
 const headerObserver = new IntersectionObserver(([entry]) => { $('#header').classList.toggle('scrolled', !entry.isIntersecting); }, { rootMargin: '-80px 0px 0px 0px', threshold: 0 });
 headerObserver.observe($('.hero'));

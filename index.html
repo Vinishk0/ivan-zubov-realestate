@@ -24,11 +24,11 @@
   <nav id="mobile-nav" class="mobile-nav" aria-label="Мобильная навигация" hidden><a href="#about">Знакомство</a><a href="#cases">Истории</a><a href="#moscow">Москва</a><a href="#services">Услуги</a><a href="#reviews">Отзывы</a><a href="#faq">Вопросы</a><a href="#contacts">Контакты</a></nav>
   <main id="main">
     <section class="hero" id="home" aria-label="Иван Зубов — риэлтор в Москве">
-      <div class="hero-media"><video id="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero.jpg" aria-hidden="true"><source src="assets/hero.mp4" type="video/mp4"></video></div>
+      <div class="hero-media hero-slideshow" aria-hidden="true"><img class="hero-slide is-active" src="assets/districts/okrug-cao.jpg" alt="" fetchpriority="high"><img class="hero-slide" src="assets/districts/okrug-zao.jpg" alt=""><img class="hero-slide" src="assets/districts/okrug-szao.jpg" alt=""></div>
       <div class="hero-shade"></div><div class="hero-grid" aria-hidden="true"></div>
       <div class="hero-top"><span><i class="status-dot"></i> ЛИЧНЫЙ ПОДХОД К НЕДВИЖИМОСТИ</span><span>МОСКВА, РОССИЯ</span></div>
       <div class="hero-content"><p class="hero-pretitle">Каждый адрес — начало истории.</p><h1>Иван <span>Зубов<span class="name-period">.</span></span></h1><div class="hero-description"><span class="small-rule"></span><p id="hero-tagline">Хорошая недвижимость.<br> Спокойные решения.</p><a class="button button-light" href="https://t.me/puxanakinul" target="_blank" rel="noopener noreferrer">Обсудить ваши планы <span aria-hidden="true">↗</span></a></div></div>
-      <div class="hero-bottom"><a href="#about" class="scroll-link"><span class="scroll-icon" aria-hidden="true">↓</span> Давайте знакомиться</a><button class="video-toggle" id="video-toggle" aria-label="Приостановить видео" aria-pressed="false">Пауза <span aria-hidden="true">Ⅱ</span></button></div>
+      <div class="hero-bottom"><a href="#about" class="scroll-link"><span class="scroll-icon" aria-hidden="true">↓</span> Давайте знакомиться</a><div class="slideshow-controls"><span id="slide-count">01 / 03</span><button class="video-toggle" id="slideshow-toggle" aria-label="Приостановить слайдшоу" aria-pressed="false">Пауза <span aria-hidden="true">Ⅱ</span></button></div></div>
     </section>
     <section class="about section-wrap" id="about">
       <div class="section-label"><span>01 / ЗНАКОМСТВО</span><span>ИВАН ЗУБОВ</span></div>
@@ -59,6 +59,20 @@
       <div class="faq-list" id="faq-list"></div>
     </section>
     <section class="contacts" id="contacts"><div class="contact-inner"><div class="section-label"><span>07 / НА СВЯЗИ</span><span><i class="status-dot"></i> ЛИЧНО ОТВЕЧУ ВАМ</span></div><div class="contact-layout"><div><p class="eyebrow">ПОКУПКА / ПРОДАЖА / СОПРОВОЖДЕНИЕ</p><h2>Обсудим<br><em>вашу задачу.</em><span class="contact-period">↗</span></h2></div><div class="contact-right"><p>Напишите, что хотите купить или продать.<br>Обсудим варианты и порядок работы.</p><a class="button button-light" href="https://t.me/puxanakinul" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 4-3.2 16-5.6-4.5-3 2.7.5-5L18 6.8l-10.5 6L3 11z"/></svg>Написать в Telegram <span aria-hidden="true">↗</span></a><a class="contact-phone" href="tel:+79851259081">+7 985 125-90-81 <span aria-hidden="true">↗</span></a><div class="contact-social"><span>МОСКВА</span><span>ЛИЧНОЕ СОПРОВОЖДЕНИЕ</span></div></div></div><div class="footer"><a class="footer-name" href="#home">ИВАН ЗУБОВ<span>НЕДВИЖИМОСТЬ С ЛИЧНЫМ ПОДХОДОМ</span></a><p>Москва · 2026<br> Недвижимость с личным подходом.</p><a href="#home" class="back-top" aria-label="Вернуться в начало">↑</a></div></div></section>
+    <section class="lead-section section-wrap" id="request" aria-labelledby="lead-title">
+      <div class="section-label"><span>ВАШ СЛЕДУЮЩИЙ ШАГ</span><span>ЗАЯВКА ИВАНУ</span></div>
+      <div class="lead-layout"><div><span class="eyebrow">НАЧНЁМ С ВАШИХ ПЛАНОВ</span><h2 id="lead-title">Каким будет<br><em>ваш новый адрес?</em></h2><p>Расскажите о задаче. Я свяжусь с вами, чтобы обсудить детали и следующий шаг.</p></div>
+      <form id="lead-form" class="lead-form" action="/api/leads" method="post">
+        <label>Как вас зовут<input name="name" autocomplete="name" required minlength="2" maxlength="80" placeholder="Ваше имя"></label>
+        <fieldset><legend>Что вы планируете?</legend><div class="lead-intents"><label><input type="radio" name="intent" value="buy" required checked><span>Купить <b aria-hidden="true">↗</b></span></label><label><input type="radio" name="intent" value="sell" required><span>Продать <b aria-hidden="true">↗</b></span></label></div></fieldset>
+        <label><span id="budget-label">Бюджет покупки, ₽</span><input name="budget" inputmode="numeric" required maxlength="16" pattern="[0-9 &#160;]+" placeholder="Например, 15 000 000"></label>
+        <label>Телефон или мессенджер<input name="contact" autocomplete="tel" required minlength="5" maxlength="120" placeholder="+7 … или @имя в Telegram"></label>
+        <label class="lead-honeypot" aria-hidden="true">Сайт<input name="website" tabindex="-1" autocomplete="off"></label>
+        <label class="lead-consent"><input type="checkbox" name="consent" required><span>Согласен на обработку указанных данных Иваном Зубовым для ответа на заявку и их передачу через VK.</span></label>
+        <button class="button button-accent" type="submit">Отправить заявку <span aria-hidden="true">↗</span></button>
+        <p id="lead-status" role="status" aria-live="polite"></p>
+      </form></div>
+    </section>
   </main>
   <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span id="dialog-eyebrow">ЗНАКОМСТВО</span><button id="dialog-close" class="circle-button" aria-label="Закрыть подробности">×</button></div><div id="dialog-content"></div></dialog>
   <noscript><div class="noscript-note">Для просмотра карты и подробностей включите JavaScript. Связаться: <a href="tel:+79851259081">+7 985 125-90-81</a>.</div></noscript>

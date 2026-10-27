@@ -7,8 +7,8 @@
   "scripts": {
     "dev": "node tools/server.mjs",
     "build": "node tools/build.mjs",
-    "check": "node --check app.mjs && node --check content.mjs && node --check okrugs.mjs && node --check map.mjs && node --check tools/server.mjs",
-    "test": "node --test tools/server.test.mjs tools/map-data.test.mjs"
+    "check": "node --check app.mjs && node --check content.mjs && node --check okrugs.mjs && node --check map.mjs && node --check tools/server.mjs && node --check api/leads.mjs",
+    "test": "node --test tools/server.test.mjs tools/map-data.test.mjs tools/leads.test.mjs"
   },
   "engines": { "node": ">=20" }
 }
