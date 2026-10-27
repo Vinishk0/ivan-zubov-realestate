@@ -2,6 +2,11 @@ import http from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { dirname, resolve, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import leads from '../api/leads.mjs';
+import { existsSync } from 'node:fs';
+
+const localEnv = resolve(dirname(fileURLToPath(import.meta.url)), '../.env.local');
+if (existsSync(localEnv)) process.loadEnvFile(localEnv);
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.geojson': 'application/geo+json; charset=utf-8', '.jpg': 'image/jpeg', '.png': 'image/png', '.svg': 'image/svg+xml', '.mp4': 'video/mp4', '.woff2': 'font/woff2', '.ttf': 'font/ttf' };
@@ -11,6 +16,7 @@ export function createServer() {
   return http.createServer(async (req, res) => {
     try {
       const path = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+      if (path === '/api/leads') { await leads(req, res); return; }
       const publicPath = path === '/' ? '/index.html' : path;
       const filename = resolve(root, `.${publicPath}`);
       if ((!allowed.has(publicPath) && !publicPath.startsWith('/assets/')) || !filename.startsWith(root + sep) || publicPath.includes('..')) {
