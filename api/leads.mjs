@@ -39,7 +39,12 @@ export function createLeadHandler({ env = process.env, fetchImpl = fetch, now = 
     const budgetText = typeof body.budget === 'string' ? body.budget.replace(/[\s\u00a0]/g, '') : '';
     const budget = Number(budgetText);
     if (name.length < 2 || name.length > 80 || contact.length < 5 || contact.length > 120 || /[\r\n\x00-\x1f]/.test(name + contact) || !['buy', 'sell'].includes(body.intent) || !/^\d{1,13}$/.test(budgetText) || !Number.isSafeInteger(budget) || budget <= 0 || body.consent !== 'on' || !/^[a-f0-9-]{36}$/i.test(body.requestId || '')) return reply(res, 400, 'Проверьте имя, контакт, бюджет и согласие на обработку данных.');
-    if (!env.VK_COMMUNITY_TOKEN || !/^[1-9]\d*$/.test(env.VK_PEER_ID || '')) return reply(res, 503, 'Приём заявок пока настраивается. Пожалуйста, напишите Ивану в Telegram или позвоните.');
+    const testMode = env.VK_TEST_MODE === 'true';
+    const peerId = testMode ? env.VK_TEST_PEER_ID : env.VK_PEER_ID;
+    const domain = testMode ? env.VK_TEST_RECIPIENT_DOMAIN : env.VK_RECIPIENT_DOMAIN;
+    const recipient = /^[1-9]\d*$/.test(peerId || '') ? { peer_id: peerId }
+      : /^[a-z][a-z0-9_.]{2,63}$/i.test(domain || '') ? { domain } : null;
+    if (!env.VK_COMMUNITY_TOKEN || !recipient) return reply(res, 503, 'Приём заявок пока настраивается. Пожалуйста, напишите Ивану в Telegram или позвоните.');
     // Per-instance throttle supplements the honeypot; use platform firewall limits for distributed traffic.
     const time = now();
     for (const [key, value] of limiter) if (value.expires <= time) limiter.delete(key);
@@ -54,7 +59,7 @@ export function createLeadHandler({ env = process.env, fetchImpl = fetch, now = 
     try {
       const response = await fetchImpl('https://api.vk.com/method/messages.send', {
         method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ access_token: env.VK_COMMUNITY_TOKEN, peer_id: env.VK_PEER_ID, random_id: String(randomId || 1), message, v: '5.199' }),
+        body: new URLSearchParams({ access_token: env.VK_COMMUNITY_TOKEN, ...recipient, random_id: String(randomId || 1), message: testMode ? `[ТЕСТ]\n${message}` : message, v: '5.199' }),
         signal: AbortSignal.timeout(12000)
       });
       const data = await response.json();

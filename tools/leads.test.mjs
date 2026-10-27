@@ -38,6 +38,23 @@ test('missing configuration and VK failures never report delivery', async () => 
   assert.equal(res.status, 502); assert.equal(res.body.ok, false);
   assert.doesNotMatch(JSON.stringify(res.body), /test-secret/);
 });
+test('test mode sends only to the test profile with a test label', async () => {
+  let params;
+  const handler = createLeadHandler({ env: { ...env, VK_RECIPIENT_DOMAIN: 'prostozubov', VK_TEST_MODE: 'true', VK_TEST_RECIPIENT_DOMAIN: 'vinishk0o0' }, limiter: new Map(), fetchImpl: async (_url, options) => { params = options.body; return { ok: true, json: async () => ({ response: 42 }) }; } });
+  assert.equal((await request(handler)).status, 200);
+  assert.equal(params.get('domain'), 'vinishk0o0');
+  assert.equal(params.has('peer_id'), false);
+  assert.match(params.get('message'), /^\[ТЕСТ\]/);
+  const missingTestRecipient = createLeadHandler({ env: { ...env, VK_TEST_MODE: 'true' } });
+  assert.equal((await request(missingTestRecipient)).status, 503);
+});
+test('production mode supports the configured profile address', async () => {
+  let params;
+  const handler = createLeadHandler({ env: { VK_COMMUNITY_TOKEN: 'test-secret', VK_RECIPIENT_DOMAIN: 'prostozubov', VK_TEST_MODE: 'false' }, limiter: new Map(), fetchImpl: async (_url, options) => { params = options.body; return { ok: true, json: async () => ({ response: 42 }) }; } });
+  assert.equal((await request(handler)).status, 200);
+  assert.equal(params.get('domain'), 'prostozubov');
+  assert.doesNotMatch(params.get('message'), /^\[ТЕСТ\]/);
+});
 test('accepts pre-parsed request bodies from Vercel', async () => {
   const handler = createLeadHandler({ env, limiter: new Map(), fetchImpl: async () => ({ ok: true, json: async () => ({ response: 42 }) }) });
   const req = { method: 'POST', body: valid, headers: { host: 'example.test', 'content-type': 'application/json', origin: 'https://example.test' } };
