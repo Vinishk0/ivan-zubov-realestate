@@ -60,7 +60,7 @@ const caseNext = $('#case-next');
 let caseScrollFrame;
 function caseCapacity() { return matchMedia('(max-width: 700px)').matches ? 1 : 2; }
 function syncCaseControls() {
-  const cards = $('.case-card');
+  const cards = $$('.case-card');
   const width = cards[0].getBoundingClientRect().width;
   const step = width + parseFloat(getComputedStyle(caseTrack).gap);
   const first = Math.min(cards.length - caseCapacity(), Math.max(0, Math.round(caseTrack.scrollLeft / step)));
