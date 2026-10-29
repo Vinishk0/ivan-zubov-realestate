@@ -1,5 +1,6 @@
 import { content } from './content.mjs';
 import './assets/vendor/leaflet.js';
+import { animateElement, swapContent, reducedMotion } from './motion.mjs';
 
 const board = document.querySelector('#map-board');
 const cursor = document.querySelector('#map-cursor');
@@ -25,7 +26,9 @@ function styleOkrugs() {
 function selectOkrug(id, focusMap = true) {
   const okrug = okrugs.get(id);
   if (!okrug) return;
+  const changed = selectedId !== id;
   selectedId = id;
+  const updateCard = () => {
   document.querySelector('#district-kicker').textContent = `МОСКВА / ${okrug.code}`;
   document.querySelector('#district-name').textContent = okrug.name;
   document.querySelector('#okrug-summary').textContent = `${okrug.districtCount} ${okrug.districtCount === 4 ? 'района' : 'районов'} · административный округ`;
@@ -39,6 +42,14 @@ function selectOkrug(id, focusMap = true) {
   const contact = document.querySelector('#district-contact');
   contact.setAttribute('aria-label', `Обсудить ${okrug.officialName} с Иваном в Telegram`);
   contact.href = `${content.contacts.telegram}?text=${encodeURIComponent(`Иван, здравствуйте! Меня интересует ${okrug.officialName} (${okrug.code}). Хочу обсудить подбор недвижимости.`)}`;
+  const revealPhoto = () => {
+    if (selectedId !== id) return;
+    animateElement(photo, [{ opacity: .4, transform: 'scale(1.035)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 650 });
+  };
+  if (changed) photo.decode().then(revealPhoto).catch(() => {});
+  };
+  if (changed) swapContent(document.querySelector('.district-copy'), updateCard);
+  else updateCard();
   styleOkrugs();
   const layer = layers.get(id);
   if (map && layer && focusMap) map.fitBounds(layer.getBounds(), {padding:[42,55], maxZoom:12, animate:false});
@@ -86,7 +97,7 @@ initializeMap().catch(error => {
 
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
 board.addEventListener('pointermove', event => {
-  if (!finePointer.matches || event.pointerType === 'touch' || event.target.closest('.leaflet-control,.map-toolbar')) {cursor.classList.remove('visible'); return;}
+  if (reducedMotion.matches || !finePointer.matches || event.pointerType === 'touch' || event.target.closest('.leaflet-control,.map-toolbar')) {cursor.classList.remove('visible'); return;}
   const rect = board.getBoundingClientRect();
   const half = cursor.offsetWidth / 2;
   cursor.style.transform = `translate(${event.clientX-rect.left-half}px, ${event.clientY-rect.top-half}px)`;
@@ -94,3 +105,5 @@ board.addEventListener('pointermove', event => {
 });
 board.addEventListener('pointerleave', () => cursor.classList.remove('visible'));
 board.addEventListener('focusin', () => cursor.classList.remove('visible'));
+
+reducedMotion.addEventListener('change', () => cursor.classList.remove('visible'));

@@ -1,5 +1,6 @@
 import { content } from './content.mjs';
 import './map.mjs';
+import { initializeMotion, animateElement, settled, swapContent, timing } from './motion.mjs';
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -22,8 +23,25 @@ $('#metrics').innerHTML = content.metrics.map((metric, i) => `<div class="metric
 
 const dialog = $('#detail-dialog');
 const dialogContent = $('#dialog-content');
-function openDialog(eyebrow, html) { $('#dialog-eyebrow').textContent = eyebrow; dialogContent.innerHTML = html; dialog.showModal(); document.body.classList.add('dialog-open'); }
-function closeDialog() { dialog.close(); }
+let dialogVersion = 0;
+function openDialog(eyebrow, html) {
+  dialogVersion++;
+  $('#dialog-eyebrow').textContent = eyebrow;
+  dialogContent.innerHTML = html;
+  dialog.showModal(); dialog.scrollTop = 0;
+  document.body.classList.add('dialog-open');
+  animateElement(dialog, [{ opacity: 0, transform: 'translateY(20px) scale(.985)' }, { opacity: 1, transform: 'translateY(0) scale(1)' }], { duration: 500 });
+  [...dialogContent.children].slice(0, 5).forEach((element, i) => animateElement(element,
+    [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }],
+    { duration: 550, delay: 70 + i * 45, fill: 'backwards' }));
+}
+async function closeDialog() {
+  if (!dialog.open) return;
+  const version = ++dialogVersion;
+  await settled(animateElement(dialog, [{ opacity: 1, transform: 'translateY(0)' }, { opacity: 0, transform: 'translateY(12px)' }], { duration: timing.quick }));
+  if (version === dialogVersion) dialog.close();
+}
+dialog.addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
 $('#dialog-close').addEventListener('click', closeDialog);
 dialog.addEventListener('close', () => document.body.classList.remove('dialog-open'));
 dialog.addEventListener('click', (event) => { if (event.target === dialog) { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeDialog(); } });
@@ -59,17 +77,25 @@ $$('[data-service]').forEach((button) => button.addEventListener('click', () => 
 }));
 
 let reviewIndex = 0;
+let displayedReviewIndex = 0;
 function renderReview() {
+  displayedReviewIndex = reviewIndex;
   const review = content.reviews[reviewIndex];
+  $('#review-progress-bar')?.style.setProperty('transform', `scaleX(${(reviewIndex + 1) / content.reviews.length})`);
+  animateElement($('#review-count'), [{ opacity: .3 }, { opacity: 1 }]);
   $('#review-quote').textContent = review.quote.length > 310 ? `${review.quote.slice(0, review.quote.lastIndexOf(' ', 310))}…` : review.quote;
   $('#review-read').innerHTML = `${review.proof ? 'Полный отзыв и оригинал' : 'Читать полностью'} <span aria-hidden="true">↗</span>`; $('#review-name').textContent = review.name; $('#review-topic').textContent = review.topic; $('#review-initials').textContent = review.initials; $('#review-count').textContent = `${String(reviewIndex+1).padStart(2,'0')} / ${String(content.reviews.length).padStart(2,'0')}`;
 
 }
 renderReview();
-$('#review-prev').addEventListener('click', () => { reviewIndex = (reviewIndex-1+content.reviews.length)%content.reviews.length; renderReview(); });
-$('#review-next').addEventListener('click', () => { reviewIndex = (reviewIndex+1)%content.reviews.length; renderReview(); });
+function changeReview(direction) {
+  reviewIndex = (reviewIndex + direction + content.reviews.length) % content.reviews.length;
+  swapContent($('.review-display'), renderReview, direction);
+}
+$('#review-prev').addEventListener('click', () => changeReview(-1));
+$('#review-next').addEventListener('click', () => changeReview(1));
 $('#review-read').addEventListener('click', () => {
-  const review = content.reviews[reviewIndex];
+  const review = content.reviews[displayedReviewIndex];
   openDialog('ОТЗЫВ КЛИЕНТА', `<h2 id="dialog-title">${escape(review.name)}</h2><p class="dialog-note">${escape(review.topic)}</p><p class="full-review">${escape(review.quote)}</p>${review.proof ? `<figure class="review-proof"><img src="${escape(review.proof)}" alt="Оригинал отзыва: ${escape(review.name)}, ${escape(review.topic)}" loading="lazy"><figcaption>Скриншот отзыва, предоставленный Иваном.</figcaption></figure>` : ''}`);
 });
 $('#reasons-grid').innerHTML = content.reasons.map((item, index) => `<article class="reason"><span class="eyebrow">0${index + 1}</span><h3>${escape(item.title)}</h3><p>${escape(item.text)}</p></article>`).join('');
@@ -80,13 +106,14 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let slideshowPaused = reducedMotion.matches;
 let slideIndex = 0;
 let slideTimer;
+let slideshowVisible = true;
 function syncSlideshow() {
   clearInterval(slideTimer);
-  $('.hero-slideshow').classList.toggle('is-paused', slideshowPaused || document.hidden);
+  $('.hero-slideshow').classList.toggle('is-paused', slideshowPaused || document.hidden || !slideshowVisible);
   slideshowToggle.setAttribute('aria-pressed', String(slideshowPaused));
   slideshowToggle.setAttribute('aria-label', slideshowPaused ? 'Продолжить слайдшоу' : 'Приостановить слайдшоу');
   slideshowToggle.innerHTML = slideshowPaused ? 'Смотреть <span aria-hidden="true">▷</span>' : 'Пауза <span aria-hidden="true">Ⅱ</span>';
-  if (!slideshowPaused && !document.hidden) slideTimer = setInterval(() => {
+  if (!slideshowPaused && !document.hidden && slideshowVisible) slideTimer = setInterval(() => {
     const next = (slideIndex + 1) % slides.length;
     if (!slides[next].complete || !slides[next].naturalWidth) return;
     slides[slideIndex].classList.remove('is-active');
@@ -98,6 +125,7 @@ function syncSlideshow() {
 slideshowToggle.addEventListener('click', () => { slideshowPaused = !slideshowPaused; syncSlideshow(); });
 reducedMotion.addEventListener('change', (event) => { slideshowPaused = event.matches; syncSlideshow(); });
 document.addEventListener('visibilitychange', syncSlideshow);
+new IntersectionObserver(([entry]) => { slideshowVisible = entry.isIntersecting; syncSlideshow(); }).observe($('.hero'));
 syncSlideshow();
 
 const leadForm = $('#lead-form');
@@ -116,20 +144,40 @@ leadForm.addEventListener('submit', async (event) => {
   if (button.disabled) return;
   const status = $('#lead-status');
   button.disabled = true;
+  leadForm.dataset.state = 'sending';
+  leadForm.setAttribute('aria-busy', 'true');
   status.textContent = 'Отправляем заявку…';
   const fields = Object.fromEntries(new FormData(leadForm));
   try {
     const response = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...fields, requestId: leadRequestId }), signal: AbortSignal.timeout(20000) });
     const result = await response.json();
     if (!response.ok || !result.ok) throw new Error(result.message || 'Не удалось отправить заявку. Попробуйте ещё раз или напишите Ивану в Telegram.');
+    leadForm.dataset.state = 'success';
     status.textContent = 'Заявка доставлена Ивану. Он свяжется с вами по указанному контакту.';
     leadForm.reset();
     $('#budget-label').textContent = 'Бюджет покупки, ₽';
     leadRequestId = crypto.randomUUID();
   } catch (error) {
+    leadForm.dataset.state = 'error';
     status.textContent = error.name === 'TimeoutError' ? 'Подтверждение не получено. Повторите отправку или напишите Ивану в Telegram.' : error.message;
-  } finally { button.disabled = false; }
+  } finally {
+    button.disabled = false;
+    leadForm.removeAttribute('aria-busy');
+    animateElement(status, [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'translateY(0)' }]);
+  }
 });
 
 const headerObserver = new IntersectionObserver(([entry]) => { $('#header').classList.toggle('scrolled', !entry.isIntersecting); }, { rootMargin: '-80px 0px 0px 0px', threshold: 0 });
 headerObserver.observe($('.hero'));
+
+const themeSelect = $('#theme-select');
+try {
+  const savedTheme = localStorage.getItem('ivan-theme');
+  if (['sand', 'air', 'sage', 'rose'].includes(savedTheme)) document.documentElement.dataset.theme = savedTheme;
+} catch { /* Storage may be disabled; theme selection still works. */ }
+themeSelect.value = document.documentElement.dataset.theme || 'sand';
+themeSelect.addEventListener('change', () => {
+  document.documentElement.dataset.theme = themeSelect.value;
+  try { localStorage.setItem('ivan-theme', themeSelect.value); } catch { /* Optional preference. */ }
+});
+initializeMotion();

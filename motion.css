@@ -1,0 +1,108 @@
+/* Motion is progressive enhancement: default states are always visible. */
+:root {
+  --motion-quick: 180ms;
+  --motion-state: 360ms;
+  --motion-reveal: 850ms;
+  --motion-image: 1200ms;
+  --ease-out: cubic-bezier(.16,1,.3,1);
+  --ease-in-out: cubic-bezier(.65,0,.35,1);
+}
+html { scrollbar-gutter: stable; }
+body, .section-wrap, .contacts, .district-card, .detail-dialog, .dialog-top, .theme-choice {
+  transition: background-color 650ms var(--ease-in-out), color 650ms var(--ease-in-out), border-color 650ms var(--ease-in-out);
+}
+.header, .header.scrolled {
+  position: fixed;
+  transition: height 500ms var(--ease-out), background-color 500ms var(--ease-out), color 500ms var(--ease-out), border-color 500ms var(--ease-out), box-shadow 500ms var(--ease-out);
+}
+.scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 40; background: var(--accent); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+.hero { --hero-drift: 0px; --hero-fade: 1; }
+.hero .hero-media { translate: 0 var(--hero-drift); }
+.hero-content { opacity: var(--hero-fade); }
+.hero h1 > .hero-first-name { display: inline-block; margin: 0; font-style: inherit; color: inherit; }
+.hero h1 > span { position: relative; }
+.motion-line { display: block; overflow: clip; padding-block: .08em; margin-block: -.08em; }
+.motion-line-inner { display: inline-block; }
+.portrait { overflow: hidden; }
+.small-rule, .note-line { transform-origin: left; }
+/* Replace the old transform transition: actual zoom can now pause at its current frame. */
+.hero-slideshow .hero-slide { transform: scale(1.04); transition: opacity 1800ms var(--ease-in-out); animation: none; }
+.hero-slideshow .hero-slide.is-active { transform: scale(1.04); animation: cover-depth 8000ms linear both; }
+.hero-slideshow.is-paused .hero-slide.is-active { animation-play-state: paused; }
+@keyframes cover-depth { from { transform: scale(1.04); } to { transform: scale(1.11); } }
+.scroll-icon { animation: scroll-invitation 2800ms var(--ease-in-out) 3; }
+@keyframes scroll-invitation { 0%,100% { translate: 0 0; } 45% { translate: 0 5px; } }
+.button, .circle-button { transition: background-color var(--motion-state) var(--ease-out), color var(--motion-state) var(--ease-out), border-color var(--motion-state) var(--ease-out), translate 450ms var(--ease-out), scale var(--motion-quick) var(--ease-out); }
+.button:hover { transform: none; }
+.button > span, .text-link > span, .header-contact > span, .case-arrow, .service-row-arrow { display: inline-block; transition: translate var(--motion-state) var(--ease-out); }
+.text-link { position: relative; transition: color var(--motion-state); }
+.text-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 550ms var(--ease-out); }
+.text-link:is(:hover,:focus-visible)::after { transform: scaleX(1); }
+.desktop-nav a::after { width: 100%; transform: scaleX(0); transform-origin: right; transition: transform 450ms var(--ease-out); }
+.desktop-nav a:is(:hover,:focus-visible)::after { transform: scaleX(1); transform-origin: left; }
+.case-grid .case-card { transition: translate 550ms var(--ease-out); }
+.case-grid .case-image img { transform: scale(1.01); transition: transform var(--motion-image) var(--ease-out), translate 650ms var(--ease-out); }
+.case-card:focus-visible .case-image img { transform: scale(1.035); }
+.case-card:focus-visible, .service-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 7px; border-radius: 0; }
+.service-row, .service-row:hover { padding-inline: 0; transition: background-color var(--motion-state) var(--ease-out); }
+.service-row-title { transition: translate 550ms var(--ease-out); }
+.service-row:hover .service-row-arrow { transform: none; }
+.district-card { overflow: hidden; }
+.leaflet-overlay-pane path { transition: fill-opacity 450ms var(--ease-out), stroke-opacity 450ms var(--ease-out), stroke-width 450ms var(--ease-out), fill 650ms, stroke 650ms; }
+/* Never transition Leaflet's transform: its projection and gesture handling own that property. */
+.review-display { overflow: clip; }
+#review-count { display: inline-block; font-variant-numeric: tabular-nums; }
+.review-progress { height: 1px; width: 90px; background: #ffffff30; margin-top: 22px; }
+.review-progress span { display: block; width: 100%; height: 100%; background: currentColor; transform-origin: left; transition: transform 650ms var(--ease-out); }
+.faq-item summary > span, .approach-details > summary > span { transition: transform var(--motion-state) var(--ease-out); }
+.lead-form input:not([type=radio]):not([type=checkbox]) { transition: border-color var(--motion-state), background-color var(--motion-state), box-shadow var(--motion-state); }
+.lead-form input:not([type=radio]):not([type=checkbox]):focus { border-color: var(--accent); box-shadow: 0 1px 0 var(--accent); background: color-mix(in srgb, var(--accent-soft) 18%, transparent); }
+.lead-intents span { transition: color var(--motion-state), background-color var(--motion-state), border-color var(--motion-state); }
+.lead-intents b { transition: translate var(--motion-state) var(--ease-out); }
+.lead-intents input:checked + span b { translate: 2px -2px; }
+.lead-form[data-state=success] #lead-status { color: var(--accent); border-left: 2px solid var(--accent); padding-left: 12px; }
+.lead-form[data-state=error] #lead-status { color: var(--ink); border-left: 2px solid var(--ink); padding-left: 12px; }
+.lead-form[data-state=sending] button[type=submit] > span { animation: sending-arrow 1100ms var(--ease-in-out) infinite; }
+@keyframes sending-arrow { 50% { translate: 3px -3px; opacity: .4; } }
+.theme-choice { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font-size: 10px; }
+.theme-choice select { max-width: 145px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--line); padding: 8px 3px; font: inherit; cursor: pointer; }
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .button:hover, .circle-button:hover { translate: var(--pointer-x,0px) var(--pointer-y,0px); }
+  .case-grid .case-card:hover { translate: 0 -5px; }
+  .case-grid .case-card:hover .case-image img { transform: scale(1.045); translate: var(--pointer-x,0px) var(--pointer-y,0px); }
+  .button:is(:hover,:focus-visible) > span, .text-link:is(:hover,:focus-visible) > span, .header-contact:is(:hover,:focus-visible) > span, .case-card:is(:hover,:focus-visible) .case-arrow, .service-row:is(:hover,:focus-visible) .service-row-arrow { translate: 3px -3px; }
+  .service-row:hover .service-row-title { translate: 6px 0; }
+}
+.button:active, .circle-button:active { scale: .98; }
+.case-grid .case-card:active { translate: 0 -1px; }
+@media (max-width:600px) { .theme-choice { grid-column: 1; grid-row: 2; } .theme-choice select { max-width: 135px; } }
+@media (prefers-reduced-motion:reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .hero .hero-media, .button, .circle-button, .case-grid .case-card, .case-grid .case-image img, .portrait img { translate: none !important; scale: none !important; }
+  .hero-content { opacity: 1; }
+  .hero-slideshow .hero-slide, .hero-slideshow .hero-slide.is-active { transform: none; }
+}
+.dialog-facts { flex-wrap: wrap; }
+/* Constrain the map's intrinsic aspect ratio to its grid track. */
+.map-board, .district-card, .district-copy { min-width: 0; }
+.map-board { width: 100%; }
+@media (max-width:1000px) {
+  .moscow-layout { grid-template-columns: minmax(0,1fr); }
+  .map-board { min-height: 430px; aspect-ratio: auto; }
+  .district-card { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.6fr); }
+}
+@media (max-width:600px) { .district-card { display: block; } }
+@media (prefers-reduced-motion:reduce) {
+  .map-cursor { display: none; }
+  .map-board #city-map, .map-board .leaflet-interactive { cursor: grab; }
+  .map-board .map-pin { cursor: pointer; }
+}
+.slideshow-controls > span { white-space: nowrap; flex-shrink: 0; }
+.slideshow-controls { flex-shrink: 0; }
+@media (max-width:360px) {
+  .hero-bottom { gap: 10px; }
+  .hero-bottom .scroll-link { gap: 8px; }
+  .slideshow-controls { gap: 8px; }
+  .hero-bottom .video-toggle { gap: 5px; }
+  .hero-bottom .video-toggle span { margin-left: 0; }
+}
