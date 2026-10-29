@@ -47,8 +47,14 @@ test('editorial layout and every dialog work at desktop, tablet and touch widths
     await page.locator('#cases').scrollIntoViewIfNeeded();
     await waitSettled(page);
     await assertFits(page, `case grid ${width}`);
-    const columns = await page.locator('.case-grid').evaluate(el => getComputedStyle(el).gridTemplateColumns.split(' ').length);
-    assert.equal(columns, width <= 700 ? 1 : 2);
+    const visibleCards = await page.locator('#case-grid').evaluate(track => {
+      const bounds = track.getBoundingClientRect();
+      return [...track.children].filter(card => {
+        const rect = card.getBoundingClientRect();
+        return rect.left >= bounds.left - 1 && rect.right <= bounds.right + 1;
+      }).length;
+    });
+    assert.equal(visibleCards, width <= 700 ? 1 : 2);
     for (const item of content.cases) {
       await page.locator(`[data-case="${item.id}"]`).click();
       await page.locator('#detail-dialog[open]').waitFor();
@@ -90,10 +96,11 @@ test('rapid review/FAQ/map changes resolve to the last chosen state; theme persi
   await page.locator('#reviews').scrollIntoViewIfNeeded();
   await waitSettled(page);
   await page.locator('#review-next').evaluate(el => { el.click(); el.click(); el.click(); });
-  await page.waitForFunction(() => document.querySelector('#review-count').textContent.startsWith('04'));
-  assert.equal(await page.locator('#review-name').innerText(), content.reviews[3].name);
+  await page.waitForFunction(() => document.querySelector('#review-count').textContent.startsWith('4 /'));
+  assert.ok((await page.locator('#review-quote').innerText()).startsWith(content.reviews[3].quote.slice(0, 50)));
   await page.locator('#review-read').click();
-  assert.match(await page.locator('#dialog-content').innerText(), /117623714/);
+  assert.equal(await page.locator('#dialog-title').innerText(), 'Отзыв клиента');
+  assert.doesNotMatch(await page.locator('#dialog-content').innerText(), /Клиент · ID|предоставленный Иваном|предоставлен[а-я]* Иваном/i);
   await page.keyboard.press('Escape');
   await page.locator('#detail-dialog').waitFor({ state: 'hidden' });
   const faq = page.locator('.faq-item').first();
@@ -173,6 +180,51 @@ test('form focus, validation, failure, retry and successful submission (mock del
   assert.equal(await page.locator('#lead-form').getAttribute('aria-busy'), null);
   await page.screenshot({ path: 'artifacts/motion/form-success.png' });
   await context.close();
+});
+
+test('two-case rail, visible first frame, readable numbers and stable reviews', async () => {
+  for (const width of [1440, 390]) {
+    const { context, page } = await open({ viewport: { width, height: 960 }, hasTouch: width < 600 });
+    assert.equal(await page.locator('#slide-count').count(), 0);
+    assert.doesNotMatch(await page.locator('.slideshow-controls').innerText(), /Пауза|Смотреть|01/);
+    const mediaAnimations = await page.locator('.hero-media').evaluate(el => el.getAnimations().map(a => a.effect.getKeyframes()));
+    assert.equal(mediaAnimations.flat().some(frame => frame.clipPath && frame.clipPath !== 'none'), false);
+    await page.locator('#cases').scrollIntoViewIfNeeded();
+    await waitSettled(page);
+    assert.equal(await page.locator('.desktop-nav a[href="#cases"]').innerText(), 'Кейсы');
+    assert.equal(await page.locator('.desktop-nav a[href="#moscow"]').innerText(), 'Округа');
+    await page.locator('#case-next').click();
+    const expected = width < 701 ? '2 / 4' : '3–4 / 4';
+    await page.waitForFunction(expected => document.querySelector('#case-count').textContent === expected, expected);
+    await page.locator('[data-case="family"]').click();
+    assert.equal(await page.locator('.case-review-proof').count(), 0);
+    await page.keyboard.press('Escape');
+    await page.locator('#detail-dialog').waitFor({ state: 'hidden' });
+    const metricType = await page.locator('.metrics-deals .metric strong').first().evaluate(el => getComputedStyle(el).fontFamily);
+    assert.match(metricType, /Manrope/);
+    const metricCaption = await page.locator('.metrics-deals .metric > span').first().evaluate(el => parseFloat(getComputedStyle(el).fontSize));
+    assert.ok(metricCaption >= 14);
+    await page.locator('#reviews').scrollIntoViewIfNeeded();
+    await waitSettled(page);
+    const geometry = () => page.evaluate(() => ({
+      frame: document.querySelector('.review-text-frame').getBoundingClientRect().height,
+      footer: document.querySelector('.review-footer').getBoundingClientRect().top,
+      section: document.querySelector('#reviews').getBoundingClientRect().height
+    }));
+    const before = await geometry();
+    for (let index = 1; index <= content.reviews.length; index++) {
+      await page.locator('#review-next').click();
+      await page.waitForFunction(value => document.querySelector('#review-count').textContent === value, `${index % content.reviews.length + 1} / ${content.reviews.length}`);
+      await waitSettled(page);
+      const after = await geometry();
+      for (const key of Object.keys(before)) assert.ok(Math.abs(after[key] - before[key]) < 1, `review ${index}: ${key} moved at ${width}`);
+    }
+    assert.equal(await page.locator('#review-name').count(), 0);
+    const backgrounds = await page.evaluate(() => ['#request', '#contacts'].map(selector => getComputedStyle(document.querySelector(selector)).backgroundColor));
+    assert.notEqual(backgrounds[0], backgrounds[1]);
+    await assertFits(page, 'carousel and compact sections');
+    await context.close();
+  }
 });
 
 test('static first screen remains visible with JavaScript disabled; no runtime errors', async () => {

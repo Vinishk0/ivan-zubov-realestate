@@ -106,3 +106,129 @@ body, .section-wrap, .contacts, .district-card, .detail-dialog, .dialog-top, .th
   .hero-bottom .video-toggle { gap: 5px; }
   .hero-bottom .video-toggle span { margin-left: 0; }
 }
+
+/* Review revisions: compact editorial sections, consistent numerals, native case rail. */
+.metric strong, .service-row-price strong, .dialog-price, .dialog-facts, .case-facts,
+.case-number, .service-row-index, #case-count, #review-count, .metric-index {
+  font-family: var(--sans);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+}
+.hero-media { clip-path: none; }
+.hero-description p { font-size: clamp(17px,1.4vw,21px); line-height: 1.6; }
+.hero-bottom .video-toggle { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; }
+.hero-bottom .video-toggle > span, .hero-bottom .video-toggle > span:first-child {
+  display: grid; place-items: center; width: 36px; height: 36px;
+  margin: 0; border: 1px solid #ffffff70; border-radius: 50%; font-size: 13px;
+}
+.metrics-heading { margin-top: 40px; padding-bottom: 20px; font-size: 12px; letter-spacing: .1em; }
+#metrics { display: grid; grid-template-columns: minmax(180px,.8fr) minmax(0,3fr); gap: 48px; border: 0; padding: 12px 0 28px; align-items: stretch; }
+.metrics-deals { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 28px 32px; }
+#metrics .metric, #metrics .metric + .metric { padding: 0; text-align: left; min-width: 0; }
+#metrics .metric strong { display: block; margin: 0 0 9px; font-size: clamp(34px,3.4vw,48px); line-height: 1.15; letter-spacing: -.04em; font-weight: 500; text-align: left; }
+#metrics .metric > span:last-child { margin: 0; max-width: 23ch; font-size: 14px; line-height: 1.5; text-align: left; }
+#metrics .metric-experience { border-right: 1px solid var(--line) !important; }
+#metrics .metric-experience strong { font-size: clamp(56px,6vw,80px); }
+.metric-experience strong small { display: inline; font: 18px var(--sans); letter-spacing: 0; }
+.approach-details { margin-top: 8px; }
+.approach-details > summary { font-size: 16px; }
+.reason h3 { font-size: 25px; }
+.reason p { font-size: 14px; }
+.reason .eyebrow { display: none; }
+.case-carousel { min-width: 0; }
+#case-grid {
+  display: flex; gap: 28px; overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+  padding-block: 8px; scroll-padding: 0; outline-offset: 4px;
+}
+#case-grid::-webkit-scrollbar { display: none; }
+#case-grid .case-card { flex: 0 0 calc((100% - 28px)/2); scroll-snap-align: start; scroll-snap-stop: always; }
+#case-grid .case-image { aspect-ratio: 16/10; }
+.case-number { font-size: 12px; }
+.case-controls { display: flex; align-items: center; justify-content: flex-end; gap: 18px; padding-top: 24px; }
+#case-count, #review-count { display: inline-block; min-width: 8ch; text-align: center; font-size: 14px; line-height: 1.4; letter-spacing: .02em; }
+.case-controls button:disabled { opacity: .3; cursor: default; background: none; color: inherit; }
+.service-row-price strong { font-size: 25px; font-weight: 500; letter-spacing: -.04em; }
+.service-row-index { font-size: 12px; }
+.dialog-price { font-size: 34px; }
+.reviews { padding-block: 64px; }
+.reviews > .section-label { margin-bottom: 28px; }
+.review-layout { display: block; max-width: 1100px; margin-inline: auto; }
+.review-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; }
+.review-intro h2 { font-size: clamp(42px,4.4vw,64px); }
+.review-intro p { margin-top: 16px; max-width: none; font-size: 14px; }
+.review-controls { margin: 0 0 3px; flex-shrink: 0; }
+.review-display { margin-top: 28px; border: 0; border-top: 1px solid #ffffff30; padding: 24px 0 0; overflow: visible; }
+.review-text-frame { position: relative; }
+.reviews .review-display blockquote {
+  min-height: 0; height: auto; margin: 0; padding: 0; max-width: none;
+  font: 400 clamp(18px,1.65vw,23px)/1.65 var(--sans); letter-spacing: 0; text-wrap: auto;
+}
+.review-measure { position: absolute; top: 0; left: 0; width: 100%; visibility: hidden; pointer-events: none; }
+.review-footer { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: 24px; }
+.review-footer p { font-size: 12px; }
+.review-read { margin: 0; font-size: 13px; min-height: 40px; flex-shrink: 0; }
+.faq { display: block; padding-block: 64px; }
+.faq > .section-label { margin-bottom: 28px; }
+.faq > .section-heading, .faq-list { max-width: 1000px; margin-inline: auto; }
+.faq > .section-heading { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; gap: 28px; }
+.faq h2 { font-size: clamp(42px,4.4vw,62px); }
+.faq .section-heading-aside { margin: 0; }
+.faq-item summary { padding: 20px 0; font-size: 17px; }
+.faq-answer { padding: 0 30px 22px 0; font-size: 15px; line-height: 1.7; max-width: 85ch; }
+.faq-answer ol { margin-bottom: 0; }
+.lead-section { max-width: none; padding-block: 64px; background: var(--surface); border-top: 1px solid var(--line); }
+.lead-section > .section-label { margin-bottom: 28px; }
+.lead-layout { display: block; max-width: 960px; margin-inline: auto; }
+.lead-layout h2 { font-size: clamp(40px,4vw,58px); margin: 0 0 16px; }
+.lead-layout > div > p { max-width: 65ch; font-size: 15px; }
+.lead-form { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px 32px; margin-top: 28px; }
+.lead-form > .lead-consent, .lead-form > .button, #lead-status { grid-column: 1 / -1; }
+.lead-form > label:not(.lead-consent) { font-size: 14px; gap: 8px; }
+.lead-form input:not([type=radio]):not([type=checkbox]) { font-size: 17px; padding-block: 10px; }
+.lead-intents span { padding: 12px 18px; font-size: 15px; }
+.lead-form legend { margin-bottom: 8px; }
+#lead-status:empty { display: none; }
+.contacts { background: var(--contact); color: var(--white); }
+.contact-inner { padding-top: 56px; }
+.contacts .section-label { border-color: #ffffff30; margin-bottom: 32px; }
+.contacts .section-label > span:last-child, .contacts p, .contacts .eyebrow,
+.contacts .footer-name > span, .contacts .theme-choice { color: #d2dcd9; }
+.contacts .contact-layout h2 em { color: #b8c7bd; }
+.contacts .contact-phone { color: var(--white); border-color: #ffffff40; }
+.contacts .contact-right .button { background: var(--white); color: var(--contact); }
+.contacts .footer, .contacts .back-top { border-color: #ffffff30; }
+.contacts .theme-choice select { color: var(--white); border-color: #ffffff50; }
+.contacts .theme-choice option { color: var(--ink); background: var(--bg); }
+.contact-layout { padding-bottom: 32px; }
+.footer { margin-top: 32px; }
+@media (max-width:900px) {
+  #metrics { grid-template-columns: minmax(130px,.65fr) minmax(0,2fr); gap: 28px; }
+  .metrics-deals { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+}
+@media (max-width:700px) {
+  #case-grid { gap: 20px; }
+  #case-grid .case-card { flex-basis: 100%; }
+  .review-intro { align-items: flex-start; }
+  .review-footer { gap: 16px; }
+  .faq > .section-heading { display: block; }
+  .faq .section-heading-aside { margin-top: 18px; max-width: none; }
+}
+@media (max-width:600px) {
+  #metrics { grid-template-columns: 1fr; gap: 24px; padding-block: 4px 24px; }
+  #metrics .metric-experience { border-right: 0 !important; border-bottom: 1px solid var(--line) !important; padding-bottom: 20px; }
+  #metrics .metric.metric-experience strong { font-size: 56px; }
+  #metrics .metric strong { font-size: 36px; }
+  #metrics .metric > span:last-child { font-size: 14px; }
+  .metrics-deals { gap: 24px 20px; }
+  .reasons-grid { grid-template-columns: 1fr; gap: 24px; }
+  .review-intro { display: block; }
+  .review-controls { margin-top: 22px; }
+  .review-footer { align-items: flex-start; flex-direction: column; gap: 12px; margin-top: 18px; }
+  .reviews, .faq, .lead-section { padding-block: 44px; }
+  .faq-answer { padding-right: 0; font-size: 15px; }
+  .faq-item summary { font-size: 16px; }
+  .lead-form { grid-template-columns: 1fr; gap: 22px; }
+  .lead-layout h2 { font-size: 40px; }
+  .service-row-price strong { font-size: 24px; }
+}

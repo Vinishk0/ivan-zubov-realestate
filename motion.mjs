@@ -25,7 +25,7 @@ reducedMotion.addEventListener('change', () => {
 
 const swaps = new WeakMap();
 // Commit the newest state only, even when a visitor clicks faster than the transition.
-export async function swapContent(element, update, direction = 1) {
+export async function swapContent(element, update, direction = 1, { resize = true } = {}) {
   if (!element) return update();
   const token = {};
   swaps.set(element, token);
@@ -39,8 +39,8 @@ export async function swapContent(element, update, direction = 1) {
   update();
   const newHeight = element.getBoundingClientRect().height;
   const frames = [
-    { opacity: 0, transform: `translateY(${direction * 12}px)`, height: `${oldHeight}px` },
-    { opacity: 1, transform: 'translateY(0)', height: `${newHeight}px` }
+    { opacity: 0, transform: `translateY(${direction * 12}px)`, ...(resize ? { height: `${oldHeight}px` } : {}) },
+    { opacity: 1, transform: 'translateY(0)', ...(resize ? { height: `${newHeight}px` } : {}) }
   ];
   await settled(animateElement(element, frames));
 }
@@ -83,7 +83,7 @@ function setupReveals() {
   });
   add('main h2', 'heading');
   add('.portrait', 'image');
-  add('.case-card', 'card', true);
+  add('.case-carousel', 'copy');
   add('.service-row, .metric, .reason, .faq-item', 'card', true);
   add('.section-label, .section-heading-aside, .about-copy > p, .about-copy > .eyebrow, .personal-note, .review-intro > p, .review-display, .lead-layout > div > p, .lead-form > label:not(.lead-honeypot), .lead-form > fieldset, .contact-right', 'copy');
   add('.small-rule, .note-line', 'line');
@@ -106,8 +106,7 @@ function setupHero() {
     word.className = 'hero-first-name'; word.textContent = firstName.textContent;
     firstName.replaceWith(word);
   }
-  animateElement(hero.querySelector('.hero-media'),
-    [{ clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)' }], { duration: 1500 });
+  // Keep the background visible from the first frame; no wipe or covering panel.
   hero.querySelectorAll('h1 > span').forEach((word, i) => animateElement(word,
     [{ opacity: 0, transform: 'translateY(32px)' }, { opacity: 1, transform: 'translateY(0)' }],
     { duration: 1300, delay: 180 + i * 180, fill: 'backwards' }));

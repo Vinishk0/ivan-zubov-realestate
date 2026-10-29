@@ -34,3 +34,15 @@ npm run test:browser
 The optional `BROWSER_EXECUTABLE` variable points browser checks at an installed Chromium. Tests cover widths 1440/768/390/320, every case/service dialog, menu, reviews, repeated FAQ/map clicks, theme persistence, slideshow pause/offscreen behavior, live reduced-motion changes, mock form failure/retry/success, local images and JavaScript errors. The external map tile provider is blocked during tests to exercise its existing fallback while local district boundaries and selectors remain functional. Screenshots go to ignored `artifacts/motion/`. The Node 24 CI job runs these browser checks.
 
 Production publication requires the owner's approval. This branch is intended for a preview and pull request only.
+
+## Preview feedback revisions
+
+The hero photograph is visible from the first frame; the covering clip-path entrance has been removed. Only name/copy entrances remain. Slide numbers and text labels are removed; the pause/resume icon keeps an accessible name. Navigation uses «Кейсы» and «Округа».
+
+Cases are a native scroll-snap rail: two visible cards on desktop, one on mobile, all four cases available with arrow buttons, touch scrolling and keyboard arrows on the rail. There is no case testimonial screenshot. Metric values and UI counters/prices use Manrope with lining/tabular numerals; experience has its own lead column and six larger, clearly labelled measurements.
+
+Reviews reserve the measured maximum height of their short excerpts at the current width, remeasure after fonts load and on width changes, and swap only the quote without a height animation. Navigation and footer geometry remain fixed across all twelve reviews. Author names and customer IDs are absent from both summary and detail views; original review wording and original review images remain. Image attribution captions are removed.
+
+FAQ uses a single centred column. The request section puts a two-column form beneath its short introduction, with one column on phones. The following contact section uses the existing dark contact color. Marketing/service/FAQ copy is shortened; client review quotations, prices, transaction figures and conditions are preserved.
+
+Browser regressions additionally check the two-case rail, first-frame image visibility, numeric typography, stable review/frame/footer/section dimensions across every review at desktop and mobile widths, hidden customer IDs and different request/contact backgrounds.
