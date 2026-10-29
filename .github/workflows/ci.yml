@@ -37,3 +37,9 @@ jobs:
         run: npm test
       - name: Build static site
         run: npm run build
+      - name: Install browser
+        if: matrix.node == 24
+        run: npx playwright install --with-deps chromium
+      - name: Browser interactions and motion
+        if: matrix.node == 24
+        run: npm run test:browser

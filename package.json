@@ -7,8 +7,14 @@
   "scripts": {
     "dev": "node tools/server.mjs",
     "build": "node tools/build.mjs",
-    "check": "node --check app.mjs && node --check content.mjs && node --check okrugs.mjs && node --check map.mjs && node --check tools/server.mjs && node --check api/leads.mjs",
-    "test": "node --test tools/server.test.mjs tools/map-data.test.mjs tools/leads.test.mjs"
+    "check": "node --check motion.mjs && node --check app.mjs && node --check content.mjs && node --check okrugs.mjs && node --check map.mjs && node --check tools/server.mjs && node --check api/leads.mjs",
+    "test": "node --test tools/server.test.mjs tools/map-data.test.mjs tools/leads.test.mjs",
+    "test:browser": "node --test tools/motion.browser.test.mjs"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
 }

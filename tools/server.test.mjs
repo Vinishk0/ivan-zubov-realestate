@@ -19,7 +19,7 @@ test('serves the Russian page and ES modules with correct content types', async 
   const html=await (await fetch(base)).text();
   assert.doesNotMatch(html,/id="district-(?:search|options|okrug|empty)"/);
   assert.match(html,/границами 12 административных округов/);
-  for (const path of ['/content.mjs', '/okrugs.mjs', '/app.mjs', '/map.mjs']) {
+  for (const path of ['/content.mjs', '/okrugs.mjs', '/app.mjs', '/map.mjs', '/motion.mjs']) {
     const module = await fetch(base + path);
     assert.equal(module.status, 200, path);
     assert.match(module.headers.get('content-type'), /javascript/);
