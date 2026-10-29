@@ -227,6 +227,31 @@ test('two-case rail, visible first frame, readable numbers and stable reviews', 
   }
 });
 
+test('district selection has no floating rectangle and retains keyboard focus on controls', async () => {
+  const { context, page } = await open({ viewport: { width: 1280, height: 900 } });
+  await page.locator('#moscow').scrollIntoViewIfNeeded();
+  await page.locator('#city-map path.leaflet-interactive').first().waitFor({ state: 'attached' });
+  const pin = page.locator('.map-pin[data-okrug="svao"]');
+  await pin.focus();
+  await page.keyboard.press('Space');
+  await page.waitForFunction(() => document.querySelector('#district-kicker').textContent.includes('СВАО'));
+  assert.equal(await pin.getAttribute('aria-pressed'), 'true');
+  assert.notEqual(await pin.evaluate(el => getComputedStyle(el).outlineStyle), 'none');
+  const path = page.locator('#city-map path.leaflet-interactive').first();
+  await path.hover({ force: true });
+  assert.equal(await page.locator('.district-tooltip, .leaflet-tooltip').count(), 0);
+  assert.equal(await path.evaluate(el => {
+    el.setAttribute('tabindex', '0');
+    el.focus();
+    const outline = getComputedStyle(el).outlineStyle;
+    el.removeAttribute('tabindex');
+    return outline;
+  }), 'none');
+  const text = await page.locator('body').innerText();
+  assert.doesNotMatch(text, /данные (?:являются )?тестовы|тестовые данные|предоставлен[а-я]* Иваном|получен[а-я]* от Ивана|заглушк|демонстрационный контент|обработк[а-я]* ИИ/i);
+  await context.close();
+});
+
 test('static first screen remains visible with JavaScript disabled; no runtime errors', async () => {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();

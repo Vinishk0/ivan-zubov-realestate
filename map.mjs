@@ -70,7 +70,6 @@ async function initializeMap() {
   tiles.on('tileerror', () => {if (!loadedTile) status.textContent = 'Подложка карты недоступна. Границы округов и информация доступны.';});
   const geometry = L.geoJSON(boundaries, {onEachFeature(feature, layer) {
     layers.set(feature.properties.id, layer);
-    layer.bindTooltip(feature.properties.name, {sticky:true, direction:'top', className:'district-tooltip'});
     layer.on('click', () => selectOkrug(feature.properties.id));
   }}).addTo(map);
   allBounds = geometry.getBounds();

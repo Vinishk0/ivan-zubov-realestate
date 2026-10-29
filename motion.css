@@ -232,3 +232,8 @@ body, .section-wrap, .contacts, .district-card, .detail-dialog, .dialog-top, .th
   .lead-layout h2 { font-size: 40px; }
   .service-row-price strong { font-size: 24px; }
 }
+
+/* Selection follows the district contour, without an SVG bounding-box outline. */
+#city-map .leaflet-interactive:focus { outline: none; }
+#city-map .leaflet-interactive:focus-visible { stroke-width: 3.5; stroke-opacity: 1; }
+#city-map:focus:not(:focus-visible), #city-map .map-pin:focus:not(:focus-visible) { outline: none; }
