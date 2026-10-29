@@ -38,7 +38,7 @@ renderCases();
 $('#case-grid').addEventListener('click', (event) => {
   const button = event.target.closest('[data-case]'); if (!button) return;
   const item = content.cases.find((candidate) => candidate.id === button.dataset.case);
-  const caseName = item.title.replace('\n', ' ');
+  const caseName = (item.detailTitle || item.title).replace('\n', ' ');
   const list = (items) => `<ul class="dialog-list">${items.map((line) => `<li>${escape(line)}</li>`).join('')}</ul>`;
   const highlight = item.highlight ? `<aside class="case-highlight"><span class="eyebrow">АЛЬТЕРНАТИВНЫЙ ПУТЬ К ДОМУ</span><p>${escape(item.highlight)}</p></aside>` : '';
   const imageCaption = item.imageCaption ? `<p class="dialog-note">${escape(item.imageCaption)}</p>` : '';
@@ -47,7 +47,7 @@ $('#case-grid').addEventListener('click', (event) => {
   const details = item.conditions
     ? `<h3>Задача</h3><p>${escape(item.task)}</p><h3>Исходные условия</h3>${list(item.conditions)}<h3>Сложности</h3>${list(item.challenges)}<h3>Решение</h3>${list(item.solution)}<h3>Результат</h3>${list(item.results)}`
     : `<h3>Задача</h3><p>${escape(item.task)}</p><h3>Как работали</h3><p>${escape(item.process)}</p><h3>Результат</h3><p>${escape(item.result)}</p>`;
-  openDialog('02 / ИСТОРИЯ СДЕЛКИ', `<img class="dialog-image" src="${escape(item.image)}" alt="${escape(item.alt)}">${imageCaption}<span class="eyebrow">${escape(item.place)}</span><h2 id="dialog-title">${lines(item.title)}</h2><div class="dialog-facts">${item.facts.map((fact) => `<span>${escape(fact)}</span>`).join('')}</div>${story}${highlight}${reviewProof}${details}<p class="dialog-note">${escape(item.price)}</p>${contactButton(`Иван, здравствуйте! Меня заинтересовал кейс «${caseName}». Хочу обсудить похожую задачу.`)}`);
+  openDialog('02 / ИСТОРИЯ СДЕЛКИ', `<img class="dialog-image" src="${escape(item.image)}" alt="${escape(item.alt)}">${imageCaption}<span class="eyebrow">${escape(item.place)}</span><h2 id="dialog-title">${lines(item.detailTitle || item.title)}</h2><div class="dialog-facts">${item.facts.map((fact) => `<span>${escape(fact)}</span>`).join('')}</div>${story}${highlight}${reviewProof}${details}${item.takeaway ? `<h3>Почему это важно для моих клиентов</h3><p>${escape(item.takeaway)}</p>` : ''}<p class="dialog-note">${escape(item.price)}</p>${contactButton(`Иван, здравствуйте! Меня заинтересовал кейс «${caseName}». Хочу обсудить похожую задачу.`)}`);
 });
 
 $('#service-rows').innerHTML = content.services.map((item, i) => `<button class="service-row" data-service="${i}"><span class="service-row-index">0${i+1}</span><span class="service-row-title">${escape(item.title.replace('\n',' '))}<small>${escape(item.text)}</small></span><span class="service-row-price"><strong>${escape(item.price)}</strong><small>${escape(item.note)}</small></span><span class="service-row-arrow" aria-hidden="true">↗</span></button>`).join('');
