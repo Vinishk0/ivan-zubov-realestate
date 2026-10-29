@@ -64,6 +64,17 @@ function setupReveals() {
       observer.unobserve(entry.target);
       const { kind, delay } = effects.get(entry.target);
       const element = entry.target;
+      const rect = element.getBoundingClientRect();
+      // The callback may arrive after a fast swipe. Never reset content already on screen.
+      if (reducedMotion.matches || rect.top <= innerHeight + 16 || rect.bottom <= 0) continue;
+      const compact = !finePointer.matches || matchMedia('(max-width: 900px)').matches;
+      if (compact) {
+        // Prewarm outside the viewport. Touch entrances never hide text or mask images.
+        animateElement(element,
+          [{ transform: 'translateY(6px)' }, { transform: 'translateY(0)' }],
+          { duration: 300, fill: 'backwards' });
+        continue;
+      }
       const options = { duration: timing.reveal, delay, fill: 'backwards' };
       if (kind === 'heading') headingLines(element).forEach((line, i) => animateElement(line,
         [{ opacity: 0, transform: 'translateY(100%)' }, { opacity: 1, transform: 'translateY(0)' }],
@@ -76,7 +87,7 @@ function setupReveals() {
       else animateElement(element,
         [{ opacity: 0, transform: `translateY(${kind === 'card' ? 32 : 18}px)` }, { opacity: 1, transform: 'translateY(0)' }], options);
     }
-  }, { threshold: 0, rootMargin: '0px 0px -24px 0px' });
+  }, { threshold: 0, rootMargin: '0px 0px 220px 0px' });
   const add = (selector, kind, stagger = false) => document.querySelectorAll(selector).forEach((element, i) => {
     effects.set(element, { kind, delay: stagger ? (i % 4) * timing.stagger : 0 });
     observer.observe(element);
@@ -97,6 +108,8 @@ function setupReveals() {
 }
 
 function setupHero() {
+  // On touch/narrow screens the first frame is the final readable state.
+  if (reducedMotion.matches || !finePointer.matches || matchMedia('(max-width: 900px)').matches || scrollY > 0) return;
   const hero = document.querySelector('.hero');
   const heading = hero.querySelector('h1');
   // Preserve the existing surname span used by the editorial CSS.

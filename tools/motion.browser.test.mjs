@@ -252,6 +252,52 @@ test('district selection has no floating rectangle and retains keyboard focus on
   await context.close();
 });
 
+test('fast touch scrolling never hides visible text or starts delayed masked entrances', async () => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  await context.route('https://tile.openstreetmap.org/**', route => route.abort());
+  await context.addInitScript(() => {
+    window.__entrances = [];
+    const original = Element.prototype.animate;
+    Element.prototype.animate = function(frames, options) {
+      const rect = this.getBoundingClientRect();
+      const keyframes = Array.isArray(frames) ? frames : [];
+      window.__entrances.push({
+        hero: !!this.closest('.hero'),
+        visible: rect.top < innerHeight && rect.bottom > 0,
+        top: rect.top,
+        opacity: keyframes.map(frame => frame.opacity).filter(value => value !== undefined),
+        masks: keyframes.some(frame => !!frame.clipPath),
+        delay: typeof options === 'object' ? options.delay || 0 : 0
+      });
+      return original.call(this, frames, options);
+    };
+  });
+  const page = await context.newPage();
+  const failures = [];
+  page.on('pageerror', error => failures.push(error.message));
+  await page.goto(base, { waitUntil: 'domcontentloaded' });
+  await page.locator('.scroll-progress').waitFor({ state: 'attached' });
+  assert.equal(await page.locator('.hero h1').evaluate(el => parseFloat(getComputedStyle(el).opacity)), 1);
+  const distance = await page.evaluate(() => document.documentElement.scrollHeight);
+  for (let y = 0; y < distance; y += 620) {
+    await page.evaluate(y => scrollTo({ top: y, behavior: 'instant' }), y);
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  }
+  for (let y = distance; y >= 0; y -= 1100) {
+    await page.evaluate(y => scrollTo({ top: y, behavior: 'instant' }), y);
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
+  }
+  const entrances = await page.evaluate(() => window.__entrances);
+  assert.equal(entrances.some(entry => entry.hero), false, 'initial mobile text is never reset after paint');
+  assert.equal(entrances.some(entry => entry.opacity.some(value => Number(value) < 1)), false);
+  assert.equal(entrances.some(entry => entry.masks), false);
+  assert.equal(entrances.some(entry => entry.delay > 0), false);
+  assert.equal(entrances.some(entry => entry.visible), false, 'late observer callbacks skip content already visible');
+  await assertFits(page, 'fast touch scroll');
+  assert.deepEqual(failures, []);
+  await context.close();
+});
+
 test('static first screen remains visible with JavaScript disabled; no runtime errors', async () => {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
