@@ -238,3 +238,14 @@ themeSelect.addEventListener('change', () => {
   try { localStorage.setItem('ivan-theme', themeSelect.value); } catch { /* Optional preference. */ }
 });
 initializeMotion();
+
+// One invitation per session; the in-flow panel never covers page content.
+const offer = $('#newbuild-offer');
+let offerSeen = false;
+try { offerSeen = sessionStorage.getItem('newbuild-offer-seen') === '1'; } catch {}
+if (!offerSeen) setTimeout(() => {
+  offer.hidden = false;
+  try { sessionStorage.setItem('newbuild-offer-seen', '1'); } catch {}
+}, 6000);
+$('#offer-close').addEventListener('click', () => { offer.hidden = true; });
+offer.querySelector('a').addEventListener('click', () => { offer.hidden = true; });

@@ -237,3 +237,4 @@ body, .section-wrap, .contacts, .district-card, .detail-dialog, .dialog-top, .th
 #city-map .leaflet-interactive:focus { outline: none; }
 #city-map .leaflet-interactive:focus-visible { stroke-width: 3.5; stroke-opacity: 1; }
 #city-map:focus:not(:focus-visible), #city-map .map-pin:focus:not(:focus-visible) { outline: none; }
+@media(max-width:700px){#case-grid .case-card{flex-basis:90%}}

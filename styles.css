@@ -186,3 +186,22 @@ body{font-size:16px}
 .why-closing{display:grid;grid-template-columns:1fr 1fr;gap:40px;border-top:1px solid var(--line);margin-top:40px;padding-top:30px}.why-closing h3{font-family:var(--serif);font-size:42px;line-height:1.1}.why-closing h3 em{color:var(--accent);font-weight:400}.why-closing p{font-size:15px;line-height:1.9;margin-bottom:22px}@media(max-width:600px){.why-closing{grid-template-columns:1fr;gap:22px}.why-closing h3{font-size:36px}.why-closing p{font-size:14px}}
 
 .detail-dialog .service-goal{padding:20px;border-left:3px solid var(--accent);background:var(--accent-soft);color:var(--ink);margin-top:26px}
+
+.about-copy h2.benefit-title{font-size:clamp(38px,4.2vw,62px);line-height:1.06;text-wrap:balance;overflow-wrap:break-word}
+.about-copy>.eyebrow{line-height:1.8}
+.note-document{width:40px;height:48px;color:var(--accent);flex-shrink:0}
+#biography-button{border:1px solid var(--line);padding:14px 18px;gap:24px;min-height:48px;background:var(--surface)}
+#biography-button span{display:inline-block;transition:transform .2s}
+#biography-button:hover span{transform:rotate(90deg)}
+#biography-button:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.case-swipe-hint{font-size:11px;color:var(--muted);margin-bottom:16px;display:flex;justify-content:space-between}
+.case-facts{flex-wrap:wrap}
+.newbuild-offer{position:relative;margin:24px var(--gutter);padding:24px 60px 24px 24px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.newbuild-offer[hidden]{display:none}
+.newbuild-offer p{font-family:var(--serif);font-size:clamp(26px,3vw,38px);line-height:1.15;margin:12px 0}
+.newbuild-offer a{font-size:12px;border-bottom:1px solid var(--accent)}
+#offer-close{position:absolute;right:8px;top:8px;width:44px;height:44px;font-size:26px}
+@media(max-width:700px){.about-copy h2.benefit-title{font-size:clamp(36px,10vw,53px)}.case-grid{scroll-padding-inline:0}.case-card{flex-basis:90%}.personal-note{gap:10px}.note-document{width:30px}.newbuild-offer{padding:22px 48px 22px 20px}}
+@media(prefers-reduced-motion:reduce){#biography-button span{transition:none}}
+@media(max-width:700px){#case-grid .case-card{flex-basis:90%}}
+.approach-details>summary{padding:18px;border:1px solid var(--line);background:var(--surface);cursor:pointer}.approach-details>summary span{display:inline-block;transition:transform .2s}.approach-details[open]>summary span{transform:rotate(45deg)}
