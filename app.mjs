@@ -227,16 +227,10 @@ leadForm.addEventListener('submit', async (event) => {
 const headerObserver = new IntersectionObserver(([entry]) => { $('#header').classList.toggle('scrolled', !entry.isIntersecting); }, { rootMargin: '-80px 0px 0px 0px', threshold: 0 });
 headerObserver.observe($('.hero'));
 
-const themeSelect = $('#theme-select');
 try {
   const savedTheme = localStorage.getItem('ivan-theme');
   if (['sand', 'air', 'sage', 'rose'].includes(savedTheme)) document.documentElement.dataset.theme = savedTheme;
 } catch { /* Storage may be disabled; theme selection still works. */ }
-themeSelect.value = document.documentElement.dataset.theme || 'sand';
-themeSelect.addEventListener('change', () => {
-  document.documentElement.dataset.theme = themeSelect.value;
-  try { localStorage.setItem('ivan-theme', themeSelect.value); } catch { /* Optional preference. */ }
-});
 initializeMotion();
 
 // Show once when services enter view, without interrupting keyboard focus.
