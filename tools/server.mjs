@@ -1,3 +1,5 @@
+import reviews from '../api/reviews.mjs';
+import callback from '../api/vk-callback.mjs';
 import http from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { dirname, resolve, extname, sep } from 'node:path';
@@ -16,6 +18,8 @@ export function createServer() {
   return http.createServer(async (req, res) => {
     try {
       const path = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+      if (path === '/api/reviews') { await reviews(req,res); return; }
+      if (path === '/api/vk-callback') { await callback(req,res); return; }
       if (path === '/api/leads') { await leads(req, res); return; }
       const publicPath = path === '/' ? '/index.html' : path;
       const filename = resolve(root, `.${publicPath}`);

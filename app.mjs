@@ -256,3 +256,28 @@ offer.querySelector('a').addEventListener('click', dismissOffer);
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape' && !offer.hidden) dismissOffer();
 });
+
+$('#review-write').addEventListener('click', () => {
+  openDialog('ВАШ ОТЗЫВ', '<h2 id="dialog-title">Оставить отзыв</h2><form id="review-form"><label>Ваше имя<input name="name" autocomplete="name" required minlength="2" maxlength="80"></label><label>Отзыв<textarea name="text" required minlength="10" maxlength="3000" rows="5"></textarea></label><label class="review-consent"><input type="checkbox" name="consent" required>Согласен на обработку данных и публикацию имени и отзыва на сайте после проверки.</label><input name="website" class="review-trap" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="button button-accent" type="submit">Отправить отзыв ↗</button><p role="status" id="review-status"></p></form>');
+  const form=$('#review-form');
+  form.addEventListener('submit',async event=>{
+    event.preventDefault();const button=form.querySelector('button'),status=$('#review-status');button.disabled=true;status.textContent='Отправляем…';
+    const data=new FormData(form);
+    try {
+      const response=await fetch('/api/reviews',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:data.get('name'),text:data.get('text'),consent:data.get('consent')==='on',website:data.get('website')}),signal:AbortSignal.timeout(20000)});
+      const result=await response.json();status.textContent=result.message;
+      if(response.ok&&result.ok){form.reset();button.hidden=true;}else button.disabled=false;
+    }catch{status.textContent='Не удалось отправить отзыв. Попробуйте позже.';button.disabled=false;}
+  });
+});
+async function loadPublishedReviews(){
+ try{
+  const response=await fetch('/api/reviews',{cache:'no-store'});if(!response.ok)return;
+  const data=await response.json();if(!Array.isArray(data.reviews))return;
+  const known=new Set(content.reviews.map(r=>r.id).filter(Boolean));
+  const added=data.reviews.filter(r=>typeof r.id==='string'&&typeof r.quote==='string'&&typeof r.topic==='string'&&!known.has(r.id));
+  if(added.length){content.reviews.push(...added);sizeReviewFrame();renderReview();}
+ }catch{/* Existing reviews remain available when the service is offline. */}
+}
+loadPublishedReviews();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadPublishedReviews();});
