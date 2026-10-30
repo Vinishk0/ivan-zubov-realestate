@@ -247,3 +247,4 @@ body, .section-wrap, .contacts, .district-card, .detail-dialog, .dialog-top, .th
 @keyframes offer-enter { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 @media(max-width:600px) { .newbuild-offer { right:16px; bottom:max(16px,env(safe-area-inset-bottom)); padding:22px 48px 20px 22px; } .newbuild-offer p { font-size:26px; } }
 @media(prefers-reduced-motion:reduce) { .newbuild-offer { animation:none; } }
+.reviews #review-write{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;width:auto;min-height:48px;margin-top:24px;padding:14px 22px;background:var(--white);color:var(--accent);border:1px solid var(--white);font:500 14px var(--sans);white-space:nowrap;opacity:1;visibility:visible}.reviews #review-write:hover{background:var(--surface)}.reviews #review-write:focus-visible{outline:2px solid var(--white);outline-offset:4px}
