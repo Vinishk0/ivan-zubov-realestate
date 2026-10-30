@@ -238,3 +238,12 @@ body, .section-wrap, .contacts, .district-card, .detail-dialog, .dialog-top, .th
 #city-map .leaflet-interactive:focus-visible { stroke-width: 3.5; stroke-opacity: 1; }
 #city-map:focus:not(:focus-visible), #city-map .map-pin:focus:not(:focus-visible) { outline: none; }
 @media(max-width:700px){#case-grid .case-card{flex-basis:90%}}
+
+/* Keep the disclosure inset at every viewport, after the shared summary reset. */
+#about .approach-details > summary { padding: 18px 22px; column-gap: 0; }
+.newbuild-offer { position:fixed; z-index:40; right:24px; bottom:24px; width:min(390px,calc(100vw - 32px)); margin:0; padding:28px 52px 28px 28px; border-radius:4px; box-shadow:0 16px 60px #182c3b26; border-top:3px solid var(--accent); animation:offer-enter .35s ease-out; }
+.newbuild-offer p { font-size:30px; text-wrap:balance; }
+.newbuild-offer a { display:inline-block; padding-block:8px; }
+@keyframes offer-enter { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@media(max-width:600px) { .newbuild-offer { right:16px; bottom:max(16px,env(safe-area-inset-bottom)); padding:22px 48px 20px 22px; } .newbuild-offer p { font-size:26px; } }
+@media(prefers-reduced-motion:reduce) { .newbuild-offer { animation:none; } }

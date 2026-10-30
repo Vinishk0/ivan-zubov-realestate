@@ -239,13 +239,26 @@ themeSelect.addEventListener('change', () => {
 });
 initializeMotion();
 
-// One invitation per session; the in-flow panel never covers page content.
+// Show once when services enter view, without interrupting keyboard focus.
 const offer = $('#newbuild-offer');
+const offerKey = 'newbuild-offer-services-seen';
 let offerSeen = false;
-try { offerSeen = sessionStorage.getItem('newbuild-offer-seen') === '1'; } catch {}
-if (!offerSeen) setTimeout(() => {
-  offer.hidden = false;
-  try { sessionStorage.setItem('newbuild-offer-seen', '1'); } catch {}
-}, 6000);
-$('#offer-close').addEventListener('click', () => { offer.hidden = true; });
-offer.querySelector('a').addEventListener('click', () => { offer.hidden = true; });
+try { offerSeen = sessionStorage.getItem(offerKey) === '1'; } catch {}
+function dismissOffer() {
+  offer.hidden = true;
+  try { sessionStorage.setItem(offerKey, '1'); } catch {}
+}
+if (!offerSeen) {
+  const observer = new IntersectionObserver(entries => {
+    if (!entries.some(entry => entry.isIntersecting)) return;
+    observer.disconnect();
+    offer.hidden = false;
+    try { sessionStorage.setItem(offerKey, '1'); } catch {}
+  }, { rootMargin: '0px 0px -15% 0px', threshold: 0 });
+  observer.observe($('#services'));
+}
+$('#offer-close').addEventListener('click', dismissOffer);
+offer.querySelector('a').addEventListener('click', dismissOffer);
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !offer.hidden) dismissOffer();
+});
