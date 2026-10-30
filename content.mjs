@@ -91,6 +91,7 @@ export const content = {
       "image": "assets/interiors/kitchen-window.webp",
       "alt": "Светлая кухня — иллюстрация к истории покупки квартиры",
       "imageCaption": "Изображение для иллюстрации.",
+      "hideCardCaption": true,
       "facts": [
         "2 комнаты",
         "7 минут до школы",
@@ -132,6 +133,7 @@ export const content = {
       "image": "assets/interiors/living-olive.webp",
       "alt": "Гостиная — иллюстрация к истории проверки квартиры",
       "imageCaption": "Изображение для иллюстрации.",
+      "hideCardCaption": true,
       "facts": [
         "Подарок",
         "3 перехода права за 1,5 года",
